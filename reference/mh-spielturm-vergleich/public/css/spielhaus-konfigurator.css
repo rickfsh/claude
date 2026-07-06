@@ -1,0 +1,892 @@
+/**
+ * MH Spielhaus Konfigurator — Frontend Styles (v5.41.0)
+ * Übernimmt die Design-Tokens des Spielturm-Konfigurators (Geschwister-Look).
+ * Uses --mh-stv-accent (default #e8910c).
+ * v5.41.0: „Konfiguration teilen" — .mh-sh-share (dezenter Outline-Button unter
+ *          dem Preis) + .mh-sh-mb-share (Icon im mobilen Sticky-CTA).
+ * v5.12.0: Galerie-Lightbox.
+ * v5.13.0: Redesign — Modell-Karten, Großbild-Galerie, Zubehör-Karten mit
+ *          Details/Streichpreisen, Streich-Gesamtsumme, mobile Sticky-CTA.
+ * v5.35.0: Add-on-Namen-Link nur noch textbreit klickbar (align-self).
+ * v5.36.0: „Ghost"-Set-Badge (.mh-sh-badge-set--potential) für abgewählte Extras.
+ * v5.38.0: Wert-Preis rechts an bereits enthaltenen Add-ons (.mh-sh-incl-price).
+ */
+
+#mh-sh-configurator {
+	--_a: var(--mh-stv-accent, #e8910c);
+	--_bg: #f8f7f4;
+	--_border: #e5e3df;
+	--_text: #1a1a1a;
+	--_muted: #636360;
+	--_radius: 12px;
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	color: var(--_text);
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+#mh-sh-configurator *, #mh-sh-configurator *::before, #mh-sh-configurator *::after { box-sizing: border-box; }
+
+/* ── Step labels ── */
+.mh-sh-step-label {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: var(--_muted);
+	margin: 0 0 10px;
+}
+
+/* ── Haus-Auswahl ── */
+.mh-sh-houses-bar { margin-bottom: 24px; }
+.mh-sh-house-pills { display: flex; flex-wrap: wrap; gap: 12px; }
+.mh-sh-house-pill {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px 10px 10px;
+	background: #fff;
+	border: 1.5px solid var(--_border);
+	border-radius: var(--_radius);
+	cursor: pointer;
+	transition: border-color .15s, box-shadow .15s, transform .1s;
+	font-family: inherit;
+	text-align: left;
+}
+.mh-sh-house-pill:hover { border-color: #cfcdc8; }
+.mh-sh-house-pill.is-active {
+	border-color: var(--_a);
+	box-shadow: inset 0 0 0 1px var(--_a);
+}
+.mh-sh-pill-thumb {
+	width: 48px; height: 48px;
+	border-radius: 8px;
+	background-size: cover;
+	background-position: center;
+	flex: 0 0 auto;
+	background-color: var(--_bg);
+}
+.mh-sh-pill-text { display: flex; flex-direction: column; gap: 2px; }
+.mh-sh-pill-name { font-weight: 600; font-size: 15px; }
+.mh-sh-pill-price { font-size: 13px; color: var(--_muted); }
+.mh-sh-house-pill.is-active .mh-sh-pill-price { color: var(--_a); font-weight: 600; }
+
+/* ── Grid ── */
+.mh-sh-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 32px;
+	align-items: start;
+}
+/* min-width:0 verhindert den klassischen CSS-Grid-„Blowout": Grid-Items haben
+   per Default min-width:auto, wodurch ein zu breites Kind (Galerie-Bild,
+   Zahlungsblock, langer String) die Spalte über die Viewport-Breite hinaus
+   aufbläht → horizontaler Overflow / nach rechts „gerücktes" Layout (mobil). */
+/* Linke Galerie-Spalte „klebt" beim Scrollen (v5.23.0) — top:80px = Höhe des
+   fixierten Seiten-Headers (wie Spielturm). align-self:start nötig, damit der
+   sticky-Kontext im Grid-Track funktioniert; löst sich am Grid-Ende sauber. */
+.mh-sh-left { display: flex; flex-direction: column; gap: 14px; min-width: 0; position: sticky; top: 80px; align-self: start; }
+.mh-sh-right {
+	background: #fff;
+	border: 1px solid var(--_border);
+	border-radius: var(--_radius);
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	min-width: 0;
+}
+
+/* Layout-Varianten
+   „wide": Galerie bekommt den Großteil der Breite (für querformatige Häuser),
+   die Konfigurator-Spalte (mit dem Zubehör) wird aber auf eine komfortable
+   Breite gepinnt (380–440px) statt proportional mitzuschrumpfen — sonst wirken
+   die Add-on-Karten gequetscht. Die Galerie nimmt den verbleibenden Platz (1fr). */
+.mh-sh-grid.mh-sh-layout-wide { grid-template-columns: minmax(0, 1fr) minmax(380px, 440px); }
+.mh-sh-grid.mh-sh-layout-compact { grid-template-columns: minmax(0, 1fr); max-width: 640px; margin-left: auto; margin-right: auto; }
+
+/* ── Galerie ── */
+.mh-sh-gallery {
+	position: relative;
+	border-radius: var(--_radius);
+	overflow: hidden;
+	background: #fff;
+	border: 1px solid var(--_border);
+	aspect-ratio: 4 / 3;
+}
+.mh-sh-hero-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.mh-sh-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.mh-sh-thumb {
+	width: 64px; height: 64px;
+	border-radius: 8px;
+	border: 2px solid var(--_border);
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
+	padding: 0;
+	transition: border-color .15s;
+}
+.mh-sh-thumb:hover { border-color: #cfcdc8; }
+.mh-sh-thumb.is-active { border-color: var(--_a); }
+
+/* Galerie: Zoom-Affordance + Inline-360° */
+.mh-sh-gallery.is-zoomable { cursor: zoom-in; }
+.mh-sh-gallery.is-zoomable:focus-visible { outline: 2px solid var(--_a); outline-offset: 2px; }
+.mh-sh-zoom-hint {
+	position: absolute; bottom: 10px; right: 10px;
+	width: 34px; height: 34px;
+	display: flex; align-items: center; justify-content: center;
+	border-radius: 50%;
+	background: rgba(6, 11, 35, .55); color: #fff;
+	opacity: 0; transform: scale(.9);
+	transition: opacity .15s, transform .15s;
+	pointer-events: none;
+}
+.mh-sh-gallery.is-zoomable:hover .mh-sh-zoom-hint { opacity: 1; transform: scale(1); }
+.mh-sh-360-trigger {
+	position: absolute; top: 10px; left: 10px; z-index: 3;
+	display: inline-flex; align-items: center; gap: 6px;
+	padding: 6px 11px;
+	font: 600 12px/1 inherit; letter-spacing: .02em;
+	color: #060B23; background: rgba(255, 255, 255, .92);
+	border: 1px solid var(--_border); border-radius: 999px;
+	cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, .12);
+	transition: background .15s, color .15s;
+}
+.mh-sh-360-trigger:hover { background: var(--_a); color: #fff; border-color: var(--_a); }
+.mh-sh-gallery.is-360-active .mh-sh-360-trigger,
+.mh-sh-gallery.is-360-active .mh-sh-zoom-hint,
+.mh-sh-gallery.is-360-active .mh-sh-hero-img { display: none; }
+.mh-sh-360-inline { position: absolute; inset: 0; z-index: 2; }
+.mh-sh-360-exit {
+	position: absolute; top: 10px; right: 10px; z-index: 4;
+	width: 32px; height: 32px; line-height: 1;
+	font-size: 16px; color: #fff;
+	background: rgba(6, 11, 35, .6); border: 0; border-radius: 50%;
+	cursor: pointer;
+}
+.mh-sh-360-exit:hover { background: rgba(6, 11, 35, .85); }
+
+/* ── Haus-Titel ── */
+.mh-sh-house-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.mh-sh-house-title h2 { margin: 0; font-size: 22px; line-height: 1.25; }
+.mh-sh-house-price { font-size: 22px; font-weight: 700; color: var(--_a); white-space: nowrap; }
+.mh-sh-house-desc { font-size: 14px; color: var(--_muted); }
+.mh-sh-house-desc p { margin: 0 0 .5em; }
+/* Überblick-Liste IMMER mit Häkchen (unabhängig davon, ob im Produkttext schon
+   ein ✓ stand — das wird per JS entfernt). Spiegelt die normale Produktseite. */
+.mh-sh-house-desc ul { list-style: none; margin: 0 0 .5em; padding: 0; }
+.mh-sh-house-desc ul li {
+	position: relative;
+	padding: 0 0 0 26px;
+	margin: 0 0 6px;
+	line-height: 1.5;
+}
+.mh-sh-house-desc ul li::before {
+	content: "";
+	position: absolute;
+	left: 0; top: 2px;
+	width: 16px; height: 16px;
+	background-repeat: no-repeat;
+	background-position: center;
+	/* Häkchen in Akzentfarbe (Mega-Holz Orange) als Inline-SVG. */
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e8910c' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+}
+
+/* ── Add-ons ── */
+.mh-sh-addons-subtitle {
+	font-size: 13px; font-weight: 700; color: var(--_text);
+	margin: 4px 0 2px;
+}
+.mh-sh-addon-grid { display: flex; flex-direction: column; gap: 10px; container: mhaddons / inline-size; }
+
+.mh-sh-addon-card {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	border: 1.5px solid var(--_border);
+	border-radius: 10px;
+	background: #fff;
+	transition: border-color .15s, background .15s;
+}
+.mh-sh-addon-card.is-included { background: var(--_bg); border-style: dashed; }
+.mh-sh-addon-card.mh-sh-extra { cursor: default; }
+.mh-sh-addon-card.is-selected { border-color: var(--_a); box-shadow: inset 0 0 0 1px var(--_a); }
+
+.mh-sh-addon-thumb {
+	width: 52px; height: 52px;
+	border-radius: 8px;
+	background-size: cover; background-position: center;
+	background-color: var(--_bg);
+	flex: 0 0 auto;
+}
+.mh-sh-addon-body { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 0; }
+.mh-sh-addon-name { font-weight: 600; font-size: 14px; }
+.mh-sh-addon-price { font-size: 14px; color: var(--_text); }
+.mh-sh-addon-price s { color: var(--_muted); font-weight: 400; margin-right: 4px; }
+.mh-sh-addon-price strong { color: var(--_a); }
+.mh-sh-pct {
+	display: inline-block;
+	font-size: 11px; font-weight: 700;
+	color: #fff; background: var(--_a);
+	padding: 1px 6px; border-radius: 999px;
+	margin-left: 2px;
+}
+.mh-sh-incl-badge { font-size: 12px; font-weight: 600; color: #2e7d32; }
+/* Wert-Anzeige rechts bei bereits enthaltenen Add-ons (durchgestrichener Preis +
+   „inklusive") → visualisiert die im Hauspreis enthaltene Ersparnis. */
+.mh-sh-incl-price { flex: 0 0 auto; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 1px; line-height: 1.25; }
+.mh-sh-incl-price s { color: var(--_muted); font-size: 14px; font-weight: 600; }
+.mh-sh-incl-free { font-size: 11px; font-weight: 700; color: #16a34a; letter-spacing: .02em; }
+.mh-sh-oos { font-size: 12px; color: #b32d2e; }
+
+.mh-sh-addon-toggle { flex: 0 0 auto; display: flex; align-items: center; }
+.mh-sh-addon-toggle input { width: 20px; height: 20px; accent-color: var(--_a); cursor: pointer; }
+
+/* Mengen-Stepper */
+.mh-sh-qty { display: inline-flex; align-items: center; border: 1px solid var(--_border); border-radius: 8px; overflow: hidden; flex: 0 0 auto; }
+.mh-sh-qty-btn {
+	width: 32px; height: 32px;
+	border: none; background: #fff; cursor: pointer;
+	font-size: 18px; line-height: 1; color: var(--_text);
+	font-family: inherit;
+}
+.mh-sh-qty-btn:hover { background: var(--_bg); }
+.mh-sh-qty-val { min-width: 34px; text-align: center; font-weight: 600; font-size: 14px; }
+
+/* ── Summe ── */
+.mh-sh-summary {
+	border-top: 1px solid var(--_border);
+	padding-top: 16px;
+	margin-top: 4px;
+}
+.mh-sh-summary-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--_muted); margin-bottom: 10px; }
+.mh-sh-summary-lines { display: flex; flex-direction: column; gap: 6px; }
+.mh-sh-summary-line { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.mh-sh-summary-line.is-extra { color: var(--_muted); }
+.mh-sh-sl-val { white-space: nowrap; }
+.mh-sh-sl-val s { color: #aaa; margin-right: 4px; }
+.mh-sh-summary-savings {
+	display: flex; justify-content: space-between;
+	font-size: 14px; font-weight: 600; color: #2e7d32;
+	margin-top: 8px;
+}
+.mh-sh-summary-total {
+	display: flex; justify-content: space-between;
+	font-size: 20px; font-weight: 800;
+	margin-top: 10px; padding-top: 10px;
+	border-top: 1px solid var(--_border);
+}
+.mh-sh-price-suffix { font-size: 12px; color: var(--_muted); margin-top: 2px; }
+
+/* CTA + Warenkorb-Feedback (Schritt 4) */
+.mh-sh-cta {
+	margin-top: 14px;
+	width: 100%;
+	padding: 15px 20px;
+	border: none;
+	border-radius: 10px;
+	background: var(--_a);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	font-family: inherit;
+	cursor: pointer;
+	transition: filter .15s, transform .1s, background .2s;
+}
+.mh-sh-cta:not(.is-disabled):not(:disabled):hover { filter: brightness(1.05); }
+.mh-sh-cta:not(:disabled):active { transform: translateY(1px); }
+.mh-sh-cta.is-disabled { background: #c9c7c2; cursor: not-allowed; }
+.mh-sh-cta.is-loading { opacity: .85; cursor: progress; }
+.mh-sh-cta.is-success { background: #2e7d32; }
+.mh-sh-cta.is-error { background: #c0392b; }
+.mh-sh-cta-soon { font-size: 12px; font-weight: 400; opacity: .9; }
+
+.mh-sh-notice {
+	margin-top: 10px;
+	font-size: 13px;
+	line-height: 1.45;
+	padding: 10px 12px;
+	border-radius: 8px;
+}
+.mh-sh-notice.is-success { background: #eef7ee; color: #246b28; border: 1px solid #cfe6d0; }
+.mh-sh-notice.is-error { background: #fdecea; color: #97271c; border: 1px solid #f5c6c0; }
+.mh-sh-notice a { color: inherit; font-weight: 700; text-decoration: underline; }
+.mh-sh-notice-sub { display: block; margin-top: 4px; font-size: 12px; opacity: .85; }
+
+/* ── Skeleton ── */
+.mh-sh-skeleton { width: 100%; }
+
+/* ── Responsive ── */
+@media (max-width: 880px) {
+	/* Alle Layout-Varianten auf eine sichere Einzelspalte (minmax(0,1fr) statt
+	   1fr → kein Grid-Blowout). max-width:100% hebt das 640px-Cap des Compact-
+	   Layouts mobil auf, margin:auto zentriert — behebt das „nach rechts gerückt". */
+	.mh-sh-grid,
+	.mh-sh-grid.mh-sh-layout-wide,
+	.mh-sh-grid.mh-sh-layout-compact {
+		grid-template-columns: minmax(0, 1fr);
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	/* Sticky-Galerie auf Mobile deaktivieren — einspaltig untereinander */
+	.mh-sh-left, .mh-sh-right { position: static; top: auto; }
+}
+@media (max-width: 600px) {
+	.mh-sh-house-pill { flex: 1 1 100%; }
+	.mh-sh-house-title h2 { font-size: 19px; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+	#mh-sh-configurator * { transition: none !important; animation: none !important; }
+}
+
+/* ── Lightbox (an <body> gehängt, daher außerhalb von #mh-sh-configurator) ── */
+html.mh-sh-lb-lock { overflow: hidden; }
+.mh-sh-lb {
+	position: fixed; inset: 0; z-index: 99999;
+	display: none;
+	flex-direction: column; align-items: center; justify-content: center;
+	background: rgba(6, 11, 35, .92);
+	padding: 56px 12px 12px;
+	-webkit-tap-highlight-color: transparent;
+}
+.mh-sh-lb.is-open { display: flex; animation: mh-sh-lb-fade .18s ease; }
+@keyframes mh-sh-lb-fade { from { opacity: 0; } to { opacity: 1; } }
+.mh-sh-lb-stage {
+	position: relative;
+	flex: 1 1 auto;
+	width: 100%; max-width: 1100px;
+	display: flex; align-items: center; justify-content: center;
+	min-height: 0;
+	overflow: hidden;
+	touch-action: none;
+}
+.mh-sh-lb-img {
+	max-width: 100%; max-height: 100%;
+	width: auto; height: auto;
+	object-fit: contain;
+	border-radius: 6px;
+	user-select: none; -webkit-user-drag: none;
+	transform-origin: center center;
+	transition: transform .18s ease;
+	will-change: transform;
+	cursor: zoom-in;
+}
+.mh-sh-lb-stage.is-zoomed .mh-sh-lb-img { cursor: grab; }
+.mh-sh-lb-stage.is-zoomed .mh-sh-lb-img.is-grabbing { cursor: grabbing; }
+.mh-sh-lb-360 { display: none; }
+.mh-sh-lb.is-360 .mh-sh-lb-img { display: none; }
+/* Peek-Bild der Lightbox (zieht beim Wischen mit) */
+.mh-sh-lb-peek {
+	position:absolute; inset:0; z-index:1;
+	width:100%; height:100%; object-fit:contain;
+	display:none; pointer-events:none; will-change:transform; -webkit-user-drag:none;
+}
+.mh-sh-lb.is-360 .mh-sh-lb-peek { display:none !important; }
+.mh-sh-lb.is-360 .mh-sh-lb-360 {
+	display: block;
+	width: min(86vw, 760px); height: min(72vh, 760px);
+	touch-action: none;
+}
+.mh-sh-lb-close {
+	position: absolute; top: 12px; right: 14px; z-index: 2;
+	width: 42px; height: 42px;
+	display: flex; align-items: center; justify-content: center;
+	color: #fff; background: rgba(255, 255, 255, .12);
+	border: 0; border-radius: 50%; cursor: pointer;
+	transition: background .15s;
+}
+.mh-sh-lb-close:hover { background: rgba(255, 255, 255, .24); }
+.mh-sh-lb-counter {
+	position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+	color: #fff; font: 600 13px/1 inherit; letter-spacing: .03em;
+	background: rgba(255, 255, 255, .12);
+	padding: 7px 14px; border-radius: 999px;
+}
+.mh-sh-lb-nav {
+	position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+	width: 48px; height: 48px;
+	display: flex; align-items: center; justify-content: center;
+	color: #fff; background: rgba(255, 255, 255, .12);
+	border: 0; border-radius: 50%; cursor: pointer;
+	transition: background .15s;
+}
+.mh-sh-lb-nav:hover { background: rgba(255, 255, 255, .24); }
+.mh-sh-lb-prev { left: 14px; }
+.mh-sh-lb-next { right: 14px; }
+.mh-sh-lb-thumbs {
+	flex: 0 0 auto;
+	display: flex; gap: 8px; flex-wrap: nowrap;
+	max-width: 100%; margin-top: 12px;
+	padding: 4px; overflow-x: auto;
+	scrollbar-width: thin;
+}
+.mh-sh-lb-thumb {
+	flex: 0 0 auto;
+	width: 58px; height: 58px;
+	border-radius: 6px;
+	border: 2px solid transparent;
+	background-size: cover; background-position: center; background-color: #1a2036;
+	cursor: pointer; padding: 0; position: relative;
+	opacity: .6; transition: opacity .15s, border-color .15s;
+}
+.mh-sh-lb-thumb:hover { opacity: 1; }
+.mh-sh-lb-thumb.is-active { opacity: 1; border-color: var(--mh-stv-accent, #e8910c); }
+.mh-sh-lb-thumb-360 .mh-sh-lb-360-badge {
+	position: absolute; inset: 0;
+	display: flex; align-items: center; justify-content: center;
+	font: 700 11px/1 inherit; color: #fff;
+	background: rgba(6, 11, 35, .55); border-radius: 4px;
+}
+@media (max-width: 600px) {
+	.mh-sh-lb { padding: 48px 6px 8px; }
+	.mh-sh-lb-nav { width: 40px; height: 40px; }
+	.mh-sh-lb-prev { left: 6px; }
+	.mh-sh-lb-next { right: 6px; }
+	.mh-sh-lb-thumb { width: 48px; height: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.mh-sh-lb.is-open { animation: none; }
+	.mh-sh-lb *, .mh-sh-zoom-hint, .mh-sh-360-trigger { transition: none !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   REDESIGN v5.13.0
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Schritt-Label (nummeriert) ── */
+.mh-sh-step { display:flex; align-items:center; gap:11px; margin:0 0 16px; flex-wrap:wrap; }
+.mh-sh-step-num { width:30px; height:30px; flex:0 0 auto; border-radius:50%; background:var(--mh-stv-navy,#060B23); color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; }
+.mh-sh-step-h { font-size:15px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:var(--mh-stv-navy,#060B23); }
+.mh-sh-step-hint { font-size:12.5px; color:#8a8a8a; font-weight:600; }
+/* v5.34.0: Hint in eigener Zeile unter der Überschrift (statt rechts daneben).
+   flex-basis:100% erzwingt den Umbruch im flex-Sectionhead; das negative
+   margin-top zieht ihn als Subtitle dicht unter den Titel (egalisiert den
+   11px-row-gap des Sectionheads auf ~3px). */
+.mh-sh-step-hint--block { flex-basis:100%; margin-top:-8px; }
+
+/* ── Modell-Karten ── */
+.mh-sh-models-wrap { margin-bottom:30px; }
+.mh-sh-models { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.mh-sh-model { position:relative; text-align:left; cursor:pointer; background:#fff; border:2px solid var(--_border,#e7e6e2); border-radius:14px; padding:16px 16px 14px; display:flex; flex-direction:column; gap:10px; min-width:0; font-family:inherit; transition:border-color .15s, box-shadow .15s, transform .12s; box-shadow:0 1px 3px rgba(6,11,35,.06); }
+.mh-sh-model:hover { border-color:#d9d8d3; box-shadow:0 6px 24px rgba(6,11,35,.08); transform:translateY(-2px); }
+.mh-sh-model.is-active { border-color:var(--_a); box-shadow:0 0 0 4px rgba(250,164,26,.14), 0 6px 24px rgba(6,11,35,.08); }
+.mh-sh-m-check { position:absolute; top:12px; right:12px; width:24px; height:24px; border-radius:50%; background:var(--_a); color:#fff; display:none; align-items:center; justify-content:center; }
+.mh-sh-model.is-active .mh-sh-m-check { display:flex; }
+.mh-sh-m-head { display:flex; align-items:flex-start; gap:12px; }
+.mh-sh-m-thumb { width:56px; height:56px; flex:0 0 auto; border-radius:10px; background:#f3ead9 center/cover no-repeat; }
+.mh-sh-m-top { flex:1; min-width:0; }
+.mh-sh-m-tag { display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--mh-stv-navy2,#33335C); padding:3px 8px; border-radius:6px; margin-bottom:6px; }
+.mh-sh-model.is-active .mh-sh-m-tag { background:#FF9000; }
+.mh-sh-m-name { display:block; font-weight:800; color:#303030; font-size:15.5px; line-height:1.2; }
+.mh-sh-m-size { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:var(--mh-stv-navy2,#33335C); margin-top:3px; }
+.mh-sh-m-size svg { opacity:.55; }
+.mh-sh-m-bar { display:block; height:5px; border-radius:3px; background:#ece9e1; overflow:hidden; }
+.mh-sh-m-bar i { display:block; height:100%; background:linear-gradient(90deg,var(--_a),#FF9000); border-radius:3px; }
+.mh-sh-m-blurb { font-size:12.5px; color:#8a8a8a; line-height:1.45; }
+.mh-sh-m-price { display:flex; align-items:baseline; gap:8px; padding-top:10px; border-top:1px dashed #d9d8d3; }
+.mh-sh-m-uvp { font-size:12.5px; color:#9a9a9a; text-decoration:line-through; }
+.mh-sh-m-ab { font-size:11px; color:#8a8a8a; font-weight:600; }
+.mh-sh-m-now { font-size:18px; font-weight:800; color:#FF9000; }
+
+/* ── Galerie (Großbilder untereinander) ── */
+.mh-sh-gallery-col { display:flex; flex-direction:column; gap:14px; }
+.mh-sh-gshot { position:relative; border:1px solid var(--_border,#e7e6e2); border-radius:14px; overflow:hidden; background:#fff; cursor:zoom-in; aspect-ratio:1/1; box-shadow:0 1px 3px rgba(6,11,35,.06); transition:box-shadow .15s; }
+.mh-sh-gshot:hover { box-shadow:0 6px 24px rgba(6,11,35,.08); }
+.mh-sh-gshot:focus-visible { outline:2px solid var(--_a); outline-offset:2px; }
+.mh-sh-gimg { width:100%; height:100%; object-fit:contain; display:block; }
+.mh-sh-gshots { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.mh-sh-gzoom { position:absolute; bottom:12px; right:12px; width:40px; height:40px; border-radius:50%; cursor:pointer; background:rgba(6,11,35,.55); color:#fff; border:0; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .15s, background .15s; }
+.mh-sh-ghero:hover .mh-sh-gzoom { opacity:1; }
+.mh-sh-gzoom:hover { background:#FF9000; }
+
+/* ── Galerie v5.28.0: Hero mit Pfeilen/Swipe + Thumb-Streifen ── */
+/* Hero ist klickbar (Lightbox) UND ziehbar (Bildwechsel) wenn mehrere Bilder. */
+.mh-sh-ghero { aspect-ratio:1/1; user-select:none; -webkit-user-select:none; }
+.mh-sh-ghero.is-multi { cursor:grab; }
+.mh-sh-ghero.is-multi.is-dragging { cursor:grabbing; }
+.mh-sh-gimg { -webkit-user-drag:none; user-select:none; will-change:transform; }
+/* Hero-/Peek-Bild zentriert im quadratischen Rahmen (v5.33.3 → v5.33.4).
+   Problem v5.33.3: Bild absolut + inset:0, aber WooCommerce/Theme injizieren
+   `.woocommerce img,.woocommerce-page img { height:auto; max-width:100% }`
+   (Specificity 0-1-1) und überschreiben damit unser `.mh-sh-gimg{height:100%}`
+   (0-1-0). Ein absolut positioniertes <img> mit inset:0 ABER height:auto füllt
+   den Rahmen NICHT — es rendert im Naturformat und klebt oben (genau das Symptom,
+   bestätigt in DevTools: height:100% durchgestrichen, computed height = Bildhöhe).
+   Fix: auf #mh-sh-configurator hochscopen (eine id schlägt jede klassenbasierte
+   WC-/Theme-Regel) und width/height/object-fit explizit erzwingen, sodass
+   object-fit:contain jedes Seitenverhältnis im quadratischen Rahmen zentriert
+   (Querformat: Balken oben/unten, Hochformat: links/rechts). Hero + Peek
+   identisch → vertikal deckungsgleich beim Swipe. */
+#mh-sh-configurator .mh-sh-ghero .mh-sh-gimg,
+#mh-sh-configurator .mh-sh-gpeek {
+	position:absolute; inset:0;
+	width:100%; height:100%;
+	object-fit:contain; object-position:center;
+}
+/* Peek-Bild: liegt deckungsgleich über dem Hero, wird beim Ziehen sichtbar. */
+.mh-sh-gpeek {
+	position:absolute; inset:0; z-index:2;
+	width:100%; height:100%; object-fit:contain; background:#fff;
+	display:none; pointer-events:none; will-change:transform; -webkit-user-drag:none;
+}
+
+/* Pfeile auf dem Hero (immer sichtbar) */
+.mh-sh-gnav {
+	position:absolute; top:50%; transform:translateY(-50%); z-index:4;
+	width:38px; height:38px; border-radius:50%;
+	display:flex; align-items:center; justify-content:center;
+	background:rgba(255,255,255,.92); color:#060B23; border:1px solid var(--_border,#e7e6e2);
+	cursor:pointer; box-shadow:0 2px 8px rgba(6,11,35,.14);
+	transition:background .15s, color .15s, box-shadow .15s, opacity .15s;
+}
+.mh-sh-gnav:hover { background:#FF9000; color:#fff; border-color:#FF9000; }
+.mh-sh-gnav:focus-visible { outline:2px solid var(--_a); outline-offset:2px; }
+.mh-sh-gprev { left:10px; }
+.mh-sh-gnext { right:10px; }
+.mh-sh-ghero.is-dragging .mh-sh-gnav { opacity:0; }
+
+/* Thumbnail-Streifen: Bilderzeile oben, eigene ziehbare Laufleiste darunter */
+.mh-sh-thumbstrip { display:flex; flex-direction:column; gap:8px; }
+.mh-sh-tnav {
+	flex:0 0 auto; width:30px; height:30px; border-radius:50%;
+	display:flex; align-items:center; justify-content:center;
+	background:#fff; color:#060B23; border:1px solid var(--_border,#e7e6e2);
+	cursor:pointer; box-shadow:0 1px 3px rgba(6,11,35,.10);
+	transition:background .15s, color .15s, opacity .15s;
+}
+.mh-sh-tnav:hover { background:#FF9000; color:#fff; border-color:#FF9000; }
+.mh-sh-tnav:focus-visible { outline:2px solid var(--_a); outline-offset:2px; }
+.mh-sh-tnav.is-disabled { opacity:.3; pointer-events:none; }
+/* Bilderzeile: scrollbar, native Scrollleiste versteckt (eigene Leiste übernimmt),
+   per Maus ziehbar (Drag-to-Scroll). */
+.mh-sh-thumbs-scroll {
+	display:flex; gap:8px; overflow-x:auto; overflow-y:hidden;
+	cursor:grab; user-select:none; -webkit-user-select:none;
+	scrollbar-width:none; -ms-overflow-style:none;
+}
+.mh-sh-thumbs-scroll::-webkit-scrollbar { display:none; }
+.mh-sh-thumbs-scroll.is-grabbing { cursor:grabbing; }
+.mh-sh-thumbs-scroll .mh-sh-thumb { flex:0 0 auto; }
+/* Eigene Laufleiste: ◄ [Track + ziehbarer Balken] ► */
+.mh-sh-thumbbar-row { display:flex; align-items:center; gap:8px; }
+.mh-sh-thumbbar {
+	flex:1 1 auto; position:relative; height:8px; border-radius:4px;
+	background:#efede9; overflow:hidden; cursor:pointer;
+}
+.mh-sh-thumbbar-thumb {
+	position:absolute; left:0; top:0; height:100%; width:40px;
+	border-radius:4px; background:#cfcdc8; cursor:grab;
+	transition:background .15s;
+}
+.mh-sh-thumbbar-thumb:hover { background:#b7b5af; }
+.mh-sh-thumbbar-thumb.is-grabbing { cursor:grabbing; background:#a8a6a0; }
+
+/* ── Titel + Preisblock ── */
+.mh-sh-house-title h2 { font-size:25px; font-weight:800; color:var(--mh-stv-navy,#060B23); line-height:1.18; margin:0; }
+.mh-sh-priceblock { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:4px; }
+.mh-sh-p-now { font-size:30px; font-weight:800; color:#FF9000; line-height:1; }
+.mh-sh-p-uvp { font-size:17px; color:#9a9a9a; text-decoration:line-through; }
+.mh-sh-p-save { display:inline-flex; align-items:center; font-size:12.5px; font-weight:800; color:#fff; background:#FF9000; padding:5px 10px; border-radius:8px; }
+/* Inline-Rabatt-Pill in der Preiszeile (Variante 5) */
+.mh-sh-p-pct { display:inline-flex; align-items:center; font-size:12px; font-weight:700; line-height:1; color:#fff; background:#3B6D11; padding:4px 9px; border-radius:6px; white-space:nowrap; }
+
+/* ── Zubehör-Liste / Karten ── */
+/* Query-Container: die Zubehör-Karten passen ihr Layout an die SPALTENBREITE an
+   (nicht an den Viewport) — so greift die Entzerrung mobil UND in der schmalen
+   „wide"-Konfiguratorspalte am Desktop. */
+.mh-sh-extras-list { display:flex; flex-direction:column; gap:12px; container: mhaddons / inline-size; }
+/* Trennung „Bereits enthalten" → Extras, seit Wegfall der „Zubehör hinzufügen"-
+   Subtitle (v5.33.2). Greift nur, wenn beide Blöcke vorhanden sind; bei reinen
+   Extras (kein included-Grid) bleibt der vertikale Platz gespart. */
+.mh-sh-addon-grid + .mh-sh-extras-list { margin-top:16px; }
+/* „Mehr anzeigen": eingeklappte Zubehör-Karten ausblenden + Toggle-Button. */
+.mh-sh-extra-collapsed { display:none !important; }
+.mh-sh-extras-more { margin-top:12px; width:100%; background:#fff; border:1px solid var(--_border,#e7e6e2); border-radius:11px; cursor:pointer; color:var(--mh-stv-navy2,#33335C); font-size:13.5px; font-weight:700; font-family:inherit; display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:11px 14px; transition:border-color .15s, background .15s, color .15s; }
+.mh-sh-extras-more:hover { border-color:var(--_a); color:var(--_a); background:#fffdf8; }
+.mh-sh-extras-more svg { transition:transform .18s; }
+.mh-sh-extras-more.is-open svg { transform:rotate(180deg); }
+.mh-sh-extra { border:2px solid var(--_border,#e7e6e2); border-radius:14px; background:#fff; overflow:hidden; box-shadow:0 1px 3px rgba(6,11,35,.06); transition:border-color .15s, box-shadow .15s; }
+.mh-sh-extra:hover { border-color:#d9d8d3; }
+.mh-sh-extra.is-selected { border-color:var(--_a); box-shadow:0 0 0 3px rgba(250,164,26,.12); }
+.mh-sh-arow { display:flex; align-items:center; gap:14px; padding:13px 15px; cursor:pointer; }
+.mh-sh-cbx { width:24px; height:24px; flex:0 0 auto; border:2px solid #d9d8d3; border-radius:7px; background:#fff; display:flex; align-items:center; justify-content:center; color:#fff; transition:.15s; }
+.mh-sh-extra.is-selected .mh-sh-cbx { background:var(--_a); border-color:var(--_a); }
+.mh-sh-cbx svg { opacity:0; transition:.15s; }
+.mh-sh-extra.is-selected .mh-sh-cbx svg { opacity:1; }
+.mh-sh-athumb { width:54px; height:54px; flex:0 0 auto; border-radius:9px; background:#eef3ea center/cover no-repeat; }
+.mh-sh-ainfo { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.mh-sh-aname { font-weight:700; color:#303030; font-size:14.5px; }
+/* Add-on-Name als Produkt-Link: optisch wie der Name, Hover deutet Klickbarkeit an.
+   align-self:flex-start begrenzt den Link auf die TEXTBREITE — sonst streckt ihn der
+   Flex-Column-Container .mh-sh-ainfo (align-items:stretch) auf die volle Spaltenbreite,
+   wodurch der ganze leere Raum rechts vom Namen als Link klickbar wäre (statt die Zeile
+   die Auswahl togglen zu lassen). So liegt der Link nur „hinter dem Text". */
+a.mh-sh-aname-link { text-decoration: none; cursor: pointer; align-self: flex-start; }
+a.mh-sh-aname-link:hover, a.mh-sh-aname-link:focus { color: var(--_a); text-decoration: underline; }
+a.mh-sh-addon-link { color: inherit; text-decoration: none; }
+a.mh-sh-addon-link:hover, a.mh-sh-addon-link:focus { color: var(--_a); text-decoration: underline; }
+.mh-sh-aprice { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.mh-sh-a-uvp { font-size:12.5px; color:#9a9a9a; text-decoration:line-through; }
+.mh-sh-a-sale { font-size:15px; font-weight:800; color:#303030; }
+.mh-sh-a-sale.is-struck { color:#9a9a9a; text-decoration:line-through; font-weight:600; font-size:13px; }
+.mh-sh-a-bundle { font-size:15px; font-weight:800; color:#16a34a; }
+.mh-sh-badge { font-size:10.5px; font-weight:800; letter-spacing:.03em; padding:3px 7px; border-radius:6px; }
+.mh-sh-badge-disc { background:#FF9000; color:#fff; }
+.mh-sh-badge-set { background:rgba(22,163,74,.12); color:#16a34a; }
+/* Potenzial-Variante (Variante A): abgewähltes Add-on mit Rabattstaffel zeigt denselben
+   Text „−X% im Set", aber als „Ghost"-Badge (Outline statt Füllung). Beim Anhaken wird
+   daraus die gefüllte Aktivvariante oben → klarer Vorher/Nachher-Kontrast. Beide Klassen
+   im Selektor für ausreichende Spezifität gegenüber der Basis-.mh-sh-badge-set-Regel. */
+.mh-sh-badge-set.mh-sh-badge-set--potential { background:transparent; color:#4e8c66; box-shadow:inset 0 0 0 1px rgba(22,163,74,.30); }
+.mh-sh-badge-oos { background:#fdecea; color:#c0392b; }
+.mh-sh-aright { display:flex; align-items:center; gap:12px; flex:0 0 auto; }
+.mh-sh-aright:empty { display:none; }
+.mh-sh-det-toggle { align-self:flex-start; background:none; border:0; cursor:pointer; color:var(--mh-stv-navy2,#33335C); font-size:12.5px; font-weight:700; display:inline-flex; align-items:center; gap:5px; padding:4px 0; font-family:inherit; }
+.mh-sh-det-toggle svg { transition:transform .18s; }
+.mh-sh-extra.is-open .mh-sh-det-toggle svg { transform:rotate(180deg); }
+.mh-sh-stepper { display:flex; align-items:center; border:1px solid #d9d8d3; border-radius:9px; overflow:hidden; background:#fff; }
+.mh-sh-step-btn { width:32px; height:34px; border:0; background:#fff; cursor:pointer; font-size:17px; color:var(--mh-stv-navy2,#33335C); font-weight:700; font-family:inherit; }
+.mh-sh-step-btn:hover { background:#F8F8F8; }
+.mh-sh-step-q { width:30px; text-align:center; font-weight:700; color:#303030; font-size:14px; }
+.mh-sh-det { max-height:0; overflow:hidden; transition:max-height .25s ease; border-top:1px solid transparent; background:#F8F8F8; }
+.mh-sh-extra.is-open .mh-sh-det { max-height:420px; border-top-color:var(--_border,#e7e6e2); }
+.mh-sh-det-in { padding:14px 16px 16px; }
+.mh-sh-det-desc { font-size:13px; color:#444; line-height:1.55; }
+.mh-sh-det-desc p { margin:0 0 8px; }
+.mh-sh-notify { display:inline-block; margin-top:10px; font-size:12.5px; font-weight:700; color:var(--mh-stv-navy2,#33335C); text-decoration:underline; cursor:pointer; }
+
+/* ── Zusammenfassung: Streichpreise ── */
+.mh-sh-summary-line .s, .mh-sh-summary-line .mh-sh-sl-val .s { color:#9a9a9a; text-decoration:line-through; font-weight:600; margin-right:6px; font-size:12.5px; }
+.mh-sh-summary-line .g { color:#16a34a; font-weight:700; }
+.mh-sh-summary-total .mh-sh-st-v { text-align:right; }
+.mh-sh-st-uvp { display:block; font-size:13px; color:#9a9a9a; text-decoration:line-through; font-weight:600; }
+.mh-sh-st-now { font-size:24px; font-weight:800; color:var(--mh-stv-navy,#060B23); }
+.mh-sh-st-l { font-size:17px; font-weight:800; color:var(--mh-stv-navy,#060B23); }
+.mh-sh-savetotal { text-align:right; margin-top:6px; color:#3B6D11; font-size:13px; font-weight:700; }
+.mh-sh-p-saveline { margin-top:9px; color:#27500A; font-size:13px; font-weight:700; }
+.mh-sh-sectionhead { display:flex; align-items:center; gap:11px; margin:0 0 16px; flex-wrap:wrap; }
+
+/* ── Mobile Sticky-CTA-Leiste ──
+   Schwebend statt bündig am unteren Rand: sitzt höher (Abstand + iOS-Safe-Area),
+   damit sie nicht mit dem Cookie-Consent-Banner kollidiert / „ganz unten" klebt.
+   Zwei Zeilen: oben Modellname + gewähltes Zubehör, unten Preis + CTA. */
+.mh-sh-mobilebar {
+	display: none;
+	position: fixed;
+	left: 10px; right: 10px;
+	bottom: calc(env(safe-area-inset-bottom, 0px) + 45px);
+	z-index: 9000;
+	flex-direction: column; align-items: stretch; gap: 8px;
+	background: #fff;
+	border: 1px solid var(--_border,#e7e6e2);
+	border-radius: 14px;
+	box-shadow: 0 8px 28px rgba(6,11,35,.18);
+	padding: 11px 14px;
+}
+.mh-sh-mb-top { display:flex; flex-direction:column; gap:1px; min-width:0; }
+.mh-sh-mb-house { font-size:12.5px; font-weight:800; color:var(--mh-stv-navy,#060B23); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mh-sh-mb-extras { font-size:11.5px; font-weight:700; color:var(--_a); line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mh-sh-mb-extras.is-empty { color:#9a9a9a; font-weight:600; }
+.mh-sh-mb-row { display:flex; align-items:center; gap:12px; }
+.mh-sh-mb-price { flex:1; min-width:0; }
+.mh-sh-mb-uvp { display:block; font-size:11px; color:#9a9a9a; text-decoration:line-through; line-height:1; }
+.mh-sh-mb-now { font-size:19px; font-weight:800; color:var(--mh-stv-navy,#060B23); line-height:1.1; }
+.mh-sh-mb-btn { flex:0 0 auto; background:var(--_a); color:#fff; border:0; border-radius:10px; padding:13px 18px; font-weight:800; font-size:14px; font-family:inherit; cursor:pointer; }
+.mh-sh-mb-btn:hover { background:#FF9000; }
+
+/* ── Konfiguration teilen (v5.41.0) ── */
+/* Variante A: dezenter Outline-Button unter dem Preis (Desktop). */
+.mh-sh-share { margin-top:14px; display:inline-flex; align-items:center; gap:8px; background:#fff; border:1.5px solid var(--_border,#e7e6e2); border-radius:10px; color:var(--mh-stv-navy2,#33335C); font-size:13.5px; font-weight:700; font-family:inherit; cursor:pointer; padding:9px 15px; transition:border-color .15s, color .15s, background .15s; }
+.mh-sh-share:hover { border-color:var(--_a); color:var(--_a); background:#fffdf8; }
+.mh-sh-share:active { transform:translateY(1px); }
+.mh-sh-share svg { flex:0 0 auto; }
+.mh-sh-share.is-copied { border-color:#2e7d32; color:#2e7d32; background:#f1f8f1; }
+/* Variante E: Icon-Button für natives Teilen im mobilen Sticky-CTA. */
+.mh-sh-mb-share { flex:0 0 auto; width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center; background:#fff; border:1.5px solid var(--_border,#e7e6e2); border-radius:10px; color:var(--mh-stv-navy2,#33335C); cursor:pointer; padding:0; transition:border-color .15s, color .15s; }
+.mh-sh-mb-share:hover { border-color:var(--_a); color:var(--_a); }
+.mh-sh-mb-share:active { transform:translateY(1px); }
+.mh-sh-mb-share.is-copied { border-color:#2e7d32; color:#2e7d32; }
+
+@media (max-width:980px) {
+	.mh-sh-models { grid-template-columns:minmax(0,1fr); }
+	.mh-sh-mobilebar { display:flex; }
+	.mh-sh-summary .mh-sh-cta { display:none; }
+	/* Platz für die schwebende Sticky-Bar, damit sie die letzten Inhalte
+	   (Akkordeon / Footer) nicht verdeckt. */
+	#mh-sh-configurator { padding-bottom: 104px; }
+}
+@media (max-width:600px) {
+	.mh-sh-gshots { grid-template-columns:1fr; }
+	.mh-sh-house-title h2 { font-size:21px; }
+	.mh-sh-p-now { font-size:26px; }
+	/* Galerie v5.28.0: mobil nur Scroll am Thumb-Streifen (keine Pfeile), Hero-Pfeile kompakter. */
+	.mh-sh-tnav { display:none; }
+	.mh-sh-gnav { width:34px; height:34px; }
+	.mh-sh-gprev { left:8px; }
+	.mh-sh-gnext { right:8px; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ZUBEHÖR-KARTEN: ENTZERRUNG BEI SCHMALER SPALTE (v5.22.0)
+   Problem: In schmalen Spalten (Mobile, „wide"-Konfiguratorspalte) quetschten
+   Checkbox + Thumb + Name + Preis + Stepper in EINE Flex-Zeile → der Name brach
+   Wort-für-Wort um. Lösung: Stepper rutscht in eine eigene, rechtsbündige Zeile
+   (flex-wrap), Name/Preis bekommen die volle Breite, dazu kompaktere Typo +
+   kleinere Thumbs. Per Container Query an die KARTENBREITE gekoppelt (greift auch
+   in der schmalen Wide-Spalte am Desktop), mit Viewport-Fallback fürs Handy. */
+@container mhaddons (max-width: 460px) {
+	.mh-sh-arow { flex-wrap: wrap; gap: 10px; padding: 12px 13px; }
+	.mh-sh-cbx { width: 22px; height: 22px; }
+	.mh-sh-athumb { width: 46px; height: 46px; }
+	.mh-sh-aname { font-size: 13.5px; }
+	.mh-sh-aprice { gap: 6px; }
+	.mh-sh-a-sale, .mh-sh-a-bundle { font-size: 14px; }
+	.mh-sh-a-uvp, .mh-sh-a-sale.is-struck { font-size: 12px; }
+	.mh-sh-badge { font-size: 10px; padding: 2px 6px; }
+	/* Stepper auf eigene Zeile, rechtsbündig (leere .mh-sh-aright ist global ausgeblendet). */
+	.mh-sh-aright { flex-basis: 100%; justify-content: flex-end; margin-top: 2px; gap: 10px; }
+	/* Inkludierte Karten analog kompakter. */
+	.mh-sh-addon-card { gap: 10px; padding: 11px; }
+	.mh-sh-addon-thumb { width: 44px; height: 44px; }
+	.mh-sh-addon-name { font-size: 13.5px; }
+}
+/* Fallback ohne Container-Query-Support: gleiche Entzerrung auf dem Handy. */
+@media (max-width: 600px) {
+	.mh-sh-arow { flex-wrap: wrap; gap: 10px; padding: 12px 13px; }
+	.mh-sh-cbx { width: 22px; height: 22px; }
+	.mh-sh-athumb { width: 46px; height: 46px; }
+	.mh-sh-aname { font-size: 13.5px; }
+	.mh-sh-aprice { gap: 6px; }
+	.mh-sh-a-sale, .mh-sh-a-bundle { font-size: 14px; }
+	.mh-sh-a-uvp, .mh-sh-a-sale.is-struck { font-size: 12px; }
+	.mh-sh-badge { font-size: 10px; padding: 2px 6px; }
+	.mh-sh-aright { flex-basis: 100%; justify-content: flex-end; margin-top: 2px; gap: 10px; }
+	.mh-sh-addon-card { gap: 10px; padding: 11px; }
+	.mh-sh-addon-thumb { width: 44px; height: 44px; }
+	.mh-sh-addon-name { font-size: 13.5px; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PRODUKTINFO-TABS (v5.24.0) — Stil aus dem Spielturm (.mh-stv-tab-*).
+   Ersetzt das frühere Akkordeon; die Inhalts-Klassen (.mh-sh-acc-rich /
+   .mh-sh-acc-table / .mh-sh-acc-link / .mh-sh-acc-dl) bleiben unverändert
+   und werden in den Tab-Panels weiterverwendet.
+   ════════════════════════════════════════════════════════════════ */
+.mh-sh-tabs { margin-top:32px; border-top:1px solid var(--_border,#e7e6e2); padding-top:24px; max-width:100%; overflow-x:hidden; }
+.mh-sh-tab-nav { display:flex; gap:0; border-bottom:2px solid var(--_border,#e7e6e2); margin-bottom:20px; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
+.mh-sh-tab-nav::-webkit-scrollbar { display:none; }
+.mh-sh-tab-btn { padding:10px 20px; font-size:14px; font-weight:600; color:var(--_muted); background:none; border:0; border-bottom:2px solid transparent; margin-bottom:-2px; cursor:pointer; white-space:nowrap; font-family:inherit; transition:color .15s, border-color .15s; }
+.mh-sh-tab-btn:hover { color:var(--_text); }
+.mh-sh-tab-btn:focus-visible { outline:2px solid var(--_a); outline-offset:-2px; }
+.mh-sh-tab-btn.is-active, .mh-sh-tab-btn[aria-selected="true"] { color:var(--_a); border-bottom-color:var(--_a); }
+.mh-sh-tab-panel { display:none; opacity:0; transition:opacity .2s ease; overflow-wrap:break-word; word-break:break-word; }
+.mh-sh-tab-panel.is-active { display:block; opacity:1; }
+.mh-sh-tab-empty { color:var(--_muted); font-size:14px; margin:0; }
+/* Retry-Button bei Ladefehler des Detail-Endpoints (v5.24.1) */
+.mh-sh-tab-retry { margin-top:12px; padding:9px 16px; background:var(--_a,#FAA41A); color:#fff; border:0; border-radius:9px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; }
+.mh-sh-tab-retry:hover { background:#FF9000; }
+.mh-sh-tab-retry:focus-visible { outline:2px solid var(--_a); outline-offset:2px; }
+/* Lade-Skeleton bis der Lazy-Load fertig ist */
+.mh-sh-tab-skeleton span { display:block; height:16px; border-radius:4px; background:#e5e3df; margin:0 0 10px; animation:mhShPulse 1.5s ease-in-out infinite; }
+.mh-sh-tab-skeleton span:nth-child(1) { width:90%; }
+.mh-sh-tab-skeleton span:nth-child(2) { width:70%; }
+.mh-sh-tab-skeleton span:nth-child(3) { width:80%; margin-bottom:0; }
+@keyframes mhShPulse { 0%, 100% { opacity:1; } 50% { opacity:.4; } }
+@media (max-width:600px) {
+	.mh-sh-tab-btn { padding:8px 14px; font-size:13px; }
+}
+
+/* ── Inhalts-Klassen (geteilt von den Tab-Panels; früher Akkordeon-Body) ── */
+.mh-sh-acc-table { width:100%; border-collapse:collapse; font-size:13.5px; }
+.mh-sh-acc-table tr + tr td { border-top:1px solid #f0efea; }
+.mh-sh-acc-k { color:#888; padding:8px 14px 8px 0; vertical-align:top; width:42%; }
+.mh-sh-acc-v { color:#303030; font-weight:600; padding:8px 0; }
+/* Verlinkte Werte (Kategorien, Versandart) — Akzentfarbe wie auf der normalen Seite. */
+.mh-sh-acc-link { color: var(--_a); text-decoration: none; }
+.mh-sh-acc-link:hover, .mh-sh-acc-link:focus { text-decoration: underline; }
+.mh-sh-acc-rich { font-size:14px; color:#444; line-height:1.6; }
+.mh-sh-acc-rich p { margin:0 0 10px; }
+.mh-sh-acc-rich ul, .mh-sh-acc-rich ol { margin:0 0 10px; padding-left:20px; }
+.mh-sh-acc-rich li { margin:2px 0; }
+.mh-sh-acc-rich h2, .mh-sh-acc-rich h3, .mh-sh-acc-rich h4 { font-size:15px; font-weight:800; color:var(--mh-stv-navy,#060B23); margin:14px 0 6px; }
+.mh-sh-acc-rich img { max-width:100%; height:auto; border-radius:8px; }
+.mh-sh-acc-dl { display:inline-flex; align-items:center; gap:7px; margin-top:10px; padding:9px 14px; background:var(--_a,#FAA41A); color:#fff; border-radius:9px; font-size:13px; font-weight:700; text-decoration:none; }
+.mh-sh-acc-dl:hover { background:#FF9000; }
+.mh-sh-acc-dl svg { flex:0 0 auto; }
+@media (max-width:600px) {
+	.mh-sh-acc-k { width:48%; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   GALERIE-THUMBS (v5.15.0) — kleine Vorschau, Klick wechselt Hero
+   (.mh-sh-thumbs/.mh-sh-thumb bereits oben definiert; hier Bild-Füllung)
+   ════════════════════════════════════════════════════════════════ */
+.mh-sh-thumb { overflow: hidden; }
+.mh-sh-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mh-sh-ghero { aspect-ratio: 1/1; }
+
+/* ════════════════════════════════════════════════════════════════
+   TRUST-SIGNALE + ZAHLUNGSARTEN (v5.15.0) — Muster aus dem Spielturm
+   ════════════════════════════════════════════════════════════════ */
+.mh-sh-trust { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--_border); }
+.mh-sh-trust-item { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--_muted); }
+.mh-sh-trust-item svg { flex-shrink: 0; color: var(--_muted); opacity: .7; }
+
+.mh-sh-payment-embed { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--_border); width: 100%; }
+.mh-sh-payment-embed:empty { display: none; }
+/* #zahlungsblock (Oxygen) zentriert als Reihe einpassen — analog Spielturm */
+#mh-sh-configurator .mh-sh-payment-embed #zahlungsblock {
+	width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important;
+	display: flex !important; flex-wrap: wrap !important; align-items: center !important;
+	justify-content: center !important; gap: 10px !important;
+}
+#mh-sh-configurator .mh-sh-payment-embed #zahlungsblock > * {
+	width: auto !important; max-width: 140px !important; height: 44px !important; max-height: 44px !important; margin: 0 !important;
+}
+#mh-sh-configurator .mh-sh-payment-embed .ct-fancy-icon.bezahlicons {
+	display: flex !important; align-items: center !important; justify-content: center !important;
+}
+#mh-sh-configurator .mh-sh-payment-embed .ct-fancy-icon.bezahlicons svg,
+#mh-sh-configurator .mh-sh-payment-embed #zahlungsblock svg {
+	width: auto !important; height: 40px !important; max-height: 40px !important; display: block !important;
+}
+#mh-sh-configurator .mh-sh-payment-embed img,
+#mh-sh-configurator .mh-sh-payment-embed img.bezahlicons,
+#mh-sh-configurator .mh-sh-payment-embed .ct-image.bezahlicons {
+	height: 40px !important; width: auto !important; max-width: 140px !important; display: block !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   VOLLBREITER INFOBEREICH UNTER DEM GRID (v5.23.0)
+   USPs → Seiten-Embeds (Klarna …) → Produktinfo-Akkordeon.
+   Liegt ausserhalb des Grids → volle Breite; hier „löst" sich die
+   sticky linke Galerie. Muster aus dem Spielturm.
+   ════════════════════════════════════════════════════════════════ */
+.mh-sh-below { width: 100%; margin-top: 28px; display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+
+/* USP-Leiste hier zentriert + ohne Trennlinie (anders als in der rechten
+   Spalte) — überschreibt margin-top/padding-top/border-top von .mh-sh-trust. */
+.mh-sh-below .mh-sh-trust { margin: 0; padding: 18px 0; border-top: none; justify-content: center; gap: 10px 28px; }
+.mh-sh-below .mh-sh-tabs { margin-top: 8px; }
+
+/* Rechte-Spalte-Embeds (Seitenelemente per embed_selectors: Verfügbarkeit/
+   Versand, Kundenprojekte …). Oxygen-Multi-Spalten/Div-Blocks auf die schmale
+   rechte Spalte zwingen; leere Slots ausblenden. Muster aus dem Spielturm. */
+.mh-sh-embed-item { width: 100%; margin-top: 14px; text-align: left; overflow: hidden; }
+.mh-sh-embed-item:empty { display: none; }
+.mh-sh-embed-item > * { max-width: 100% !important; box-sizing: border-box !important; }
+#mh-sh-configurator .mh-sh-embed-item .ct-new-columns { flex-direction: column !important; gap: 10px !important; }
+#mh-sh-configurator .mh-sh-embed-item .ct-new-columns > * { width: 100% !important; max-width: 100% !important; flex: none !important; }
+#mh-sh-configurator .mh-sh-embed-item .ct-div-block { max-width: 100% !important; box-sizing: border-box !important; }
+#mh-sh-configurator .mh-sh-embed-item .ct-section,
+#mh-sh-configurator .mh-sh-embed-item .ct-section-inner-wrap { padding-left: 0 !important; padding-right: 0 !important; max-width: 100% !important; }
+
+/* Vollbreite Seiten-Embeds (Klarna etc.); leere Slots ausblenden. */
+.mh-sh-embed-below { width: 100%; margin: 0; }
+.mh-sh-embed-below:empty { display: none; }

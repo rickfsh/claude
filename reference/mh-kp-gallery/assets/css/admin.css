@@ -1,0 +1,188 @@
+/* ═══════════════════════════════════════════════════════════
+   MH Shop the Look — Admin Pin Editor
+   ═══════════════════════════════════════════════════════════ */
+
+.mh-stl-instruction {
+    background: #fef7ea; border-left: 4px solid #f7af4a;
+    padding: 12px 16px; margin: 0 0 16px; font-size: 13px;
+    line-height: 1.5;
+}
+
+.mh-stl-no-image {
+    background: #fff8e1; border-left: 4px solid #f0ad4e;
+    padding: 16px 20px; margin: 8px 0;
+}
+
+/* ── Canvas ─────────────────────────────────────────────────── */
+#mh-stl-gallery-strip {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    max-width: 800px; margin: 0 0 12px; padding: 8px 0;
+}
+.mh-stl-gallery-thumb-wrap {
+    position: relative; width: 72px; height: 72px;
+    border: 3px solid #ddd; border-radius: 6px;
+    overflow: hidden; cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+}
+.mh-stl-gallery-thumb-wrap:hover { border-color: #f7af4a; }
+.mh-stl-gallery-thumb-wrap.active {
+    border-color: #f7af4a;
+    box-shadow: 0 0 0 2px rgba(247,175,74,.3);
+}
+.mh-stl-gallery-thumb-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+}
+.mh-stl-gallery-thumb-num {
+    position: absolute; top: 2px; left: 2px;
+    background: rgba(0,0,0,.6); color: #fff;
+    font-size: 10px; font-weight: 700;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+.mh-stl-gallery-pin-count {
+    position: absolute; bottom: 2px; right: 2px;
+    background: #f7af4a; color: #fff;
+    font-size: 10px; font-weight: 700;
+    min-width: 18px; height: 18px; border-radius: 9px;
+    display: none; align-items: center; justify-content: center;
+    padding: 0 4px;
+}
+.mh-stl-gallery-pin-count[style*="display: inline"],
+.mh-stl-gallery-pin-count:not([style*="display: none"]):not(:empty) {
+    display: flex;
+}
+
+#mh-stl-canvas-wrap {
+    max-width: 800px; margin: 0 0 20px;
+    border: 2px solid #ddd; border-radius: 6px;
+    overflow: hidden; background: #111;
+}
+#mh-stl-canvas {
+    position: relative; cursor: crosshair;
+    display: inline-block; width: 100%;
+}
+#mh-stl-canvas img {
+    display: block; width: 100%; height: auto;
+    pointer-events: none; user-select: none;
+}
+
+/* ── Pins on Canvas ─────────────────────────────────────────── */
+.mh-stl-pin {
+    position: absolute;
+    width: 32px; height: 32px;
+    margin-left: -16px; margin-top: -16px;
+    background: #f7af4a;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 13px; font-weight: 700;
+    z-index: 10;
+    transition: transform .15s;
+}
+.mh-stl-pin:hover { transform: scale(1.15); }
+.mh-stl-pin.no-product {
+    background: #dc3232; animation: mhStlPulse 1.5s infinite;
+}
+@keyframes mhStlPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220,50,50,.4); }
+    50% { box-shadow: 0 0 0 8px rgba(220,50,50,0); }
+}
+
+/* ── Pin List ───────────────────────────────────────────────── */
+#mh-stl-pin-list { max-width: 800px; }
+#mh-stl-pin-list h4 {
+    font-size: 14px; font-weight: 600; margin: 0 0 10px;
+    color: #333;
+}
+
+.mh-stl-pin-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; margin-bottom: 8px;
+    background: #f9f9f9; border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+.mh-stl-pin-row:hover { background: #fef7ea; }
+
+.mh-stl-pin-number {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #f7af4a; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.mh-stl-pin-row.no-product .mh-stl-pin-number { background: #dc3232; }
+
+.mh-stl-pin-coords {
+    font-size: 11px; color: #999; width: 70px; flex-shrink: 0;
+}
+
+.mh-stl-pin-product-info {
+    flex: 1; display: flex; align-items: center; gap: 8px;
+    min-width: 0;
+}
+.mh-stl-pin-product-info img {
+    width: 36px; height: 36px; object-fit: cover;
+    border-radius: 4px; flex-shrink: 0;
+}
+.mh-stl-pin-product-name {
+    font-size: 13px; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mh-stl-pin-product-price {
+    font-size: 12px; color: #f7af4a; font-weight: 600;
+}
+
+/* Search inline */
+.mh-stl-pin-search-wrap {
+    flex: 1; position: relative; min-width: 200px;
+}
+.mh-stl-pin-search {
+    width: 100%; padding: 6px 10px; border: 1px solid #ccc;
+    border-radius: 4px; font-size: 13px;
+}
+.mh-stl-pin-dropdown {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: #fff; border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px; max-height: 200px; overflow-y: auto;
+    display: none; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+.mh-stl-pin-dropdown.open { display: block; }
+.mh-stl-pin-dropdown-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; cursor: pointer; font-size: 13px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.mh-stl-pin-dropdown-item:hover { background: #fef7ea; }
+.mh-stl-pin-dropdown-item img {
+    width: 30px; height: 30px; object-fit: cover; border-radius: 3px;
+}
+
+.mh-stl-pin-remove {
+    background: #dc3232; color: #fff; border: none;
+    border-radius: 50%; width: 24px; height: 24px;
+    font-size: 16px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+}
+.mh-stl-pin-remove:hover { background: #a00; }
+
+.mh-stl-empty {
+    color: #999; font-size: 13px; font-style: italic; padding: 8px 0;
+}
+
+/* ── Pin Group Labels (multi-image) ──────────────────────────── */
+.mh-stl-pin-group-label {
+    font-size: 13px; font-weight: 600; color: #333;
+    padding: 10px 0 6px; margin-top: 8px;
+    border-top: 1px solid #e0e0e0;
+}
+.mh-stl-pin-group-label:first-child { border-top: none; margin-top: 0; }
+.mh-stl-pin-group-label small { font-weight: 400; color: #999; }
+.mh-stl-pin-group-other { color: #888; }
+
+.mh-stl-pin-row.mh-stl-other-image {
+    opacity: .55;
+}
+.mh-stl-pin-row.mh-stl-other-image:hover { opacity: .85; }

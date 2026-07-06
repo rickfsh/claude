@@ -1,0 +1,237 @@
+/* Mega-Holz Shop-Galerie v1.0.0
+   1:1-Port der Spielhaus-Galerie (Hero + Peek-Swipe + Pfeile,
+   Thumb-Streifen mit eigener Laufleiste, Lightbox mit Zoom & Pan).
+   Farben auf das Mülltonnenbox-Designsystem gemappt:
+   Akzent #FAA41A, Dunkel #111111 (statt Spielhaus-Navy #060B23). */
+
+.mhsg {
+	--mhsg-a: #FAA41A;
+	--mhsg-a-hover: #FF9000;
+	--mhsg-dark: #111111;
+	--mhsg-border: #e7e6e2;
+	--mhsg-radius: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+.mhsg, .mhsg * { box-sizing: border-box; }
+
+/* ── Hero (klickbar = Lightbox, ziehbar = Bildwechsel) ── */
+.mhsg-hero {
+	position: relative;
+	border: 1px solid var(--mhsg-border);
+	border-radius: var(--mhsg-radius);
+	overflow: hidden;
+	background: #fff;
+	cursor: zoom-in;
+	aspect-ratio: 1 / 1;
+	box-shadow: 0 1px 3px rgba(17, 17, 17, .06);
+	transition: box-shadow .15s;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.mhsg-hero:hover { box-shadow: 0 6px 24px rgba(17, 17, 17, .08); }
+.mhsg-hero:focus-visible { outline: 2px solid var(--mhsg-a); outline-offset: 2px; }
+.mhsg-hero.is-multi { cursor: grab; }
+.mhsg-hero.is-multi.is-dragging { cursor: grabbing; }
+
+.mhsg-hero .mhsg-img,
+.mhsg-hero .mhsg-peek {
+	position: absolute; inset: 0;
+	/* WC/Theme injizieren ".woocommerce img{height:auto;max-width:100%}" (0-1-1).
+	   !important sichert unser Sizing, damit Hero & Peek deckungsgleich bleiben. */
+	width: 100% !important; height: 100% !important;
+	object-fit: contain !important; object-position: center;
+	user-select: none; -webkit-user-drag: none;
+	will-change: transform;
+}
+/* v1.2.6 FIX: "display:block" gehört NUR auf das Hero-Bild. Vorher stand es in der
+   gemeinsamen Regel oben — dadurch hatte ".mhsg-hero .mhsg-peek" (Spezifität 0-2-0)
+   ein display:block und schlug das spätere ".mhsg-peek{display:none}" (0-1-0). Das
+   Peek-Bild (weiß, z-index:2, ohne src) lag dann als weiße Fläche über dem Hero →
+   das Produktbild wirkte ausgeblendet ("Bild lädt kurz, verschwindet wieder"). */
+.mhsg-hero .mhsg-img { display: block; }
+/* Peek-Bild: liegt deckungsgleich über dem Hero, wird beim Ziehen sichtbar. */
+.mhsg-peek {
+	z-index: 2; background: #fff;
+	display: none; pointer-events: none;
+}
+
+/* Zoom-Affordance (erscheint beim Hover) */
+.mhsg-zoom {
+	position: absolute; bottom: 12px; right: 12px; z-index: 3;
+	width: 40px; height: 40px; border-radius: 50%;
+	cursor: pointer; border: 0;
+	background: rgba(17, 17, 17, .55); color: #fff;
+	display: flex; align-items: center; justify-content: center;
+	opacity: 0; transition: opacity .15s, background .15s;
+}
+.mhsg-hero:hover .mhsg-zoom { opacity: 1; }
+.mhsg-zoom:hover { background: var(--mhsg-a-hover); }
+
+/* Pfeile auf dem Hero (immer sichtbar) */
+.mhsg-gnav {
+	position: absolute; top: 50%; transform: translateY(-50%); z-index: 4;
+	width: 38px; height: 38px; border-radius: 50%;
+	display: flex; align-items: center; justify-content: center;
+	background: rgba(255, 255, 255, .92); color: var(--mhsg-dark);
+	border: 1px solid var(--mhsg-border);
+	cursor: pointer; box-shadow: 0 2px 8px rgba(17, 17, 17, .14);
+	transition: background .15s, color .15s, box-shadow .15s, opacity .15s;
+}
+.mhsg-gnav:hover { background: var(--mhsg-a-hover); color: #fff; border-color: var(--mhsg-a-hover); }
+.mhsg-gnav:focus-visible { outline: 2px solid var(--mhsg-a); outline-offset: 2px; }
+.mhsg-gprev { left: 10px; }
+.mhsg-gnext { right: 10px; }
+.mhsg-hero.is-dragging .mhsg-gnav { opacity: 0; }
+
+/* ── Thumbnail-Streifen: Bilderzeile + eigene ziehbare Laufleiste ── */
+.mhsg-thumbstrip { display: flex; flex-direction: column; gap: 8px; }
+.mhsg-thumbs-scroll {
+	display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden;
+	cursor: grab; user-select: none; -webkit-user-select: none;
+	scrollbar-width: none; -ms-overflow-style: none;
+}
+.mhsg-thumbs-scroll::-webkit-scrollbar { display: none; }
+.mhsg-thumbs-scroll.is-grabbing { cursor: grabbing; }
+
+.mhsg-thumb {
+	width: 64px; height: 64px; flex: 0 0 auto;
+	border-radius: 8px;
+	border: 2px solid var(--mhsg-border);
+	background: #fff;
+	cursor: pointer; padding: 0; overflow: hidden;
+	transition: border-color .15s;
+}
+.mhsg-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mhsg-thumb:hover { border-color: #cfcdc8; }
+.mhsg-thumb.is-active { border-color: var(--mhsg-a); }
+.mhsg-thumb:focus-visible { outline: 2px solid var(--mhsg-a); outline-offset: 1px; }
+
+/* Laufleiste: ◄ [Track + ziehbarer Balken] ► */
+.mhsg-thumbbar-row { display: flex; align-items: center; gap: 8px; }
+.mhsg-tnav {
+	flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+	display: flex; align-items: center; justify-content: center;
+	background: #fff; color: var(--mhsg-dark); border: 1px solid var(--mhsg-border);
+	cursor: pointer; box-shadow: 0 1px 3px rgba(17, 17, 17, .10);
+	transition: background .15s, color .15s, opacity .15s;
+}
+.mhsg-tnav:hover { background: var(--mhsg-a-hover); color: #fff; border-color: var(--mhsg-a-hover); }
+.mhsg-tnav:focus-visible { outline: 2px solid var(--mhsg-a); outline-offset: 2px; }
+.mhsg-tnav.is-disabled { opacity: .3; pointer-events: none; }
+.mhsg-thumbbar {
+	flex: 1 1 auto; position: relative; height: 8px; border-radius: 4px;
+	background: #efede9; overflow: hidden; cursor: pointer;
+}
+.mhsg-thumbbar-thumb {
+	position: absolute; left: 0; top: 0; height: 100%; width: 40px;
+	border-radius: 4px; background: #cfcdc8; cursor: grab;
+	transition: background .15s;
+}
+.mhsg-thumbbar-thumb:hover { background: #b7b5af; }
+.mhsg-thumbbar-thumb.is-grabbing { cursor: grabbing; background: #a8a6a0; }
+
+/* ── Lightbox (an <body> gehängt) ── */
+html.mhsg-lb-lock { overflow: hidden; }
+.mhsg-lb {
+	position: fixed; inset: 0; z-index: 999999;
+	display: none;
+	flex-direction: column; align-items: center; justify-content: center;
+	background: rgba(17, 17, 17, .94);
+	padding: 56px 12px 12px;
+	-webkit-tap-highlight-color: transparent;
+}
+.mhsg-lb.is-open { display: flex; animation: mhsg-lb-fade .18s ease; }
+@keyframes mhsg-lb-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.mhsg-lb-stage {
+	position: relative;
+	flex: 1 1 auto;
+	width: 100%; max-width: 1100px;
+	display: flex; align-items: center; justify-content: center;
+	min-height: 0;
+	overflow: hidden;
+	touch-action: none;
+}
+.mhsg-lb-img {
+	max-width: 100%; max-height: 100%;
+	width: auto; height: auto;
+	object-fit: contain;
+	border-radius: 6px;
+	user-select: none; -webkit-user-drag: none;
+	transform-origin: center center;
+	transition: transform .18s ease;
+	will-change: transform;
+	cursor: zoom-in;
+}
+.mhsg-lb-stage.is-zoomed .mhsg-lb-img { cursor: grab; }
+.mhsg-lb-stage.is-zoomed .mhsg-lb-img.is-grabbing { cursor: grabbing; }
+/* Peek-Bild der Lightbox (zieht beim Wischen mit) */
+/* Peek-Bild der Lightbox (zieht beim Wischen mit).
+   FIX v1.2.0: WC/Theme ".woocommerce img{height:auto}" (0-1-1) überschrieb sonst
+   unser height:100% (0-1-0) → Peek rutschte nach oben, sprang nach dem Swipe zurück.
+   !important auf width/height/object-fit erzwingt die deckungsgleiche Darstellung. */
+.mhsg-lb-peek {
+	position: absolute; inset: 0; z-index: 1;
+	width: 100% !important; height: 100% !important; object-fit: contain !important;
+	display: none; pointer-events: none; will-change: transform; -webkit-user-drag: none;
+}
+.mhsg-lb-close {
+	position: absolute; top: 12px; right: 14px; z-index: 2;
+	width: 42px; height: 42px;
+	display: flex; align-items: center; justify-content: center;
+	color: #fff; background: rgba(255, 255, 255, .12);
+	border: 0; border-radius: 50%; cursor: pointer;
+	transition: background .15s;
+}
+.mhsg-lb-close:hover { background: rgba(255, 255, 255, .24); }
+.mhsg-lb-counter {
+	position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+	color: #fff; font: 600 13px/1 "Open Sans", Helvetica, Arial, sans-serif;
+	letter-spacing: .03em;
+	background: rgba(255, 255, 255, .12);
+	padding: 7px 14px; border-radius: 999px;
+}
+.mhsg-lb-nav {
+	position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+	width: 48px; height: 48px;
+	display: flex; align-items: center; justify-content: center;
+	color: #fff; background: rgba(255, 255, 255, .12);
+	border: 0; border-radius: 50%; cursor: pointer;
+	transition: background .15s;
+}
+.mhsg-lb-nav:hover { background: rgba(255, 255, 255, .24); }
+.mhsg-lb-prev { left: 14px; }
+.mhsg-lb-next { right: 14px; }
+.mhsg-lb-thumbs {
+	flex: 0 0 auto;
+	display: flex; gap: 8px; flex-wrap: nowrap;
+	max-width: 100%; margin-top: 12px;
+	padding: 4px; overflow-x: auto;
+	scrollbar-width: thin;
+}
+.mhsg-lb-thumb {
+	flex: 0 0 auto;
+	width: 58px; height: 58px;
+	border-radius: 6px;
+	border: 2px solid transparent;
+	background-size: cover; background-position: center; background-color: #2a2a2a;
+	cursor: pointer; padding: 0; position: relative;
+	opacity: .6; transition: opacity .15s, border-color .15s;
+}
+.mhsg-lb-thumb:hover { opacity: 1; }
+.mhsg-lb-thumb.is-active { opacity: 1; border-color: var(--mhsg-a, #FAA41A); }
+
+@media (max-width: 600px) {
+	.mhsg-lb { padding: 48px 6px 8px; }
+	.mhsg-lb-nav { width: 40px; height: 40px; }
+	.mhsg-lb-prev { left: 6px; }
+	.mhsg-lb-next { right: 6px; }
+	.mhsg-lb-thumb { width: 48px; height: 48px; }
+	.mhsg-thumb { width: 56px; height: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.mhsg *, .mhsg-lb *, .mhsg-zoom { transition: none !important; }
+	.mhsg-lb.is-open { animation: none; }
+}

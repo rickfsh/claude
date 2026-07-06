@@ -1,0 +1,173 @@
+/* MH Spielhaus Konfigurator — Admin Styles v5.37.0 (ergänzt admin.css) */
+
+/* Gruppen-Kopf */
+.mh-sh-group-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.mh-sh-group-head input[type="text"] {
+	flex: 1;
+	max-width: 420px;
+}
+
+/* Haus-Block */
+.mh-sh-house {
+	border: 1px solid #dcdcde;
+	border-left: 3px solid var(--mh-stv-accent, #e8910c);
+	border-radius: 4px;
+	padding: 14px 16px;
+	margin: 12px 0;
+	background: #fcfcfd;
+}
+.mh-sh-house-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 16px;
+	margin-bottom: 12px;
+}
+.mh-sh-house-badge {
+	display: inline-block;
+	background: #060b23;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	padding: 3px 9px;
+	border-radius: 3px;
+	align-self: center;
+}
+.mh-sh-field {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+.mh-sh-field > span {
+	font-size: 11px;
+	font-weight: 600;
+	color: #50575e;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+.mh-sh-house-head .mh-stv-remove-row {
+	margin-left: auto;
+	align-self: center;
+}
+.mh-sh-base-id { width: 90px; }
+
+/* Section label über der Add-on-Tabelle */
+.mh-sh-section-label {
+	font-size: 12px;
+	font-weight: 600;
+	color: #50575e;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	margin: 6px 0 4px;
+}
+
+/* Add-on-Tabelle */
+.mh-sh-addons-table thead th {
+	background: #f6f7f7;
+	font-weight: 600;
+	padding: 8px 10px;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: #50575e;
+	vertical-align: bottom;
+}
+.mh-sh-addons-table thead th em {
+	font-weight: 400;
+	text-transform: none;
+	letter-spacing: 0;
+	color: #787c82;
+}
+.mh-sh-addons-table tbody td {
+	padding: 8px 10px;
+	vertical-align: top;
+}
+.mh-sh-addons-table tbody tr:hover td { background: #f0f6fc; }
+
+.mh-sh-col-pid      { width: 90px; }
+.mh-sh-col-name     { width: 200px; }
+.mh-sh-col-incl     { width: 130px; }
+.mh-sh-col-qty      { width: 80px; }
+.mh-sh-col-allowqty { width: 90px; }
+.mh-sh-col-actions  { width: 44px; text-align: center; }
+.mh-sh-addon-pid    { width: 80px; }
+
+/* Drag-and-Drop: Add-on-Zeilen innerhalb eines Hauses sortieren (native HTML5-DnD).
+   Reihenfolge wird 1:1 gespeichert (Sanitizer baut Add-ons in Übermittlungs-=DOM-Reihenfolge auf). */
+.mh-sh-col-drag { width: 30px; text-align: center; }
+.mh-sh-drag-handle {
+	cursor: grab;
+	color: #9aa1a9;
+	text-align: center;
+	vertical-align: middle;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.mh-sh-drag-handle:hover { color: #2271b1; }
+.mh-sh-drag-handle:active { cursor: grabbing; }
+.mh-sh-drag-handle .dashicons { width: 18px; height: 18px; font-size: 18px; line-height: 1; }
+/* Zeile während des Ziehens hervorheben. */
+.mh-sh-addon.mh-sh-row-dragging { opacity: .55; }
+.mh-sh-addon.mh-sh-row-dragging td { background: #eef5fb; }
+
+/* Rabatt-Staffel */
+.mh-sh-tier-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-bottom: 4px;
+}
+.mh-sh-tier {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 12px;
+	color: #3c434a;
+	background: #fff;
+	border: 1px solid #e0e0e3;
+	border-radius: 3px;
+	padding: 3px 6px;
+	width: fit-content;
+}
+.mh-sh-tier-from { width: 56px; }
+.mh-sh-tier-pct  { width: 64px; }
+.mh-sh-remove-tier {
+	color: #d63638 !important;
+	text-decoration: none !important;
+	font-size: 15px;
+	line-height: 1;
+	padding: 0 2px;
+}
+.mh-sh-add-tier { font-size: 12px; }
+.mh-sh-tiers-hint { margin: 4px 0 0; font-size: 11px; }
+
+/* Inkludiert → Staffel ausgrauen */
+.mh-sh-tiers-disabled {
+	opacity: 0.4;
+	pointer-events: none;
+}
+
+/* Neue-Zeile-Highlight (greift auf div/tr/span) */
+.mh-sh-group.mh-stv-row-new,
+.mh-sh-house.mh-stv-row-new {
+	background: #fcf9e8 !important;
+	transition: background .6s ease;
+}
+
+/* Modell-Details (frei pflegbare Frontend-Felder) */
+.mh-sh-house-details {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px 18px;
+	padding: 4px 0 12px;
+}
+.mh-sh-house-details .mh-sh-field { flex: 1 1 200px; }
+.mh-sh-house-details .mh-sh-field-narrow { flex: 0 0 160px; }
+.mh-sh-house-details .mh-sh-field-full { flex: 1 1 100%; }
+.mh-sh-house-details textarea { width: 100%; }

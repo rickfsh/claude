@@ -1,0 +1,27 @@
+/* MH Birthday Sale – Warenkorb-Rabattzeile hervorheben.
+   Farbe zentral hier aenderbar (Default: Spar-Gruen #2E7D32). */
+
+.mhbs-discount-line,
+.mhbs-discount-label {
+	color: #2E7D32 !important;
+	font-weight: 700 !important;
+}
+
+.mhbs-discount-line .woocommerce-Price-amount,
+.mhbs-discount-line bdi,
+.mhbs-discount-line .amount {
+	color: #2E7D32 !important;
+	font-weight: 700 !important;
+}
+
+.mhbs-discount-label::before {
+	content: "";
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-right: 6px;
+	vertical-align: -3px;
+	background-color: #2E7D32;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+}

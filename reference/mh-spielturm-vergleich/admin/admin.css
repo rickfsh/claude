@@ -1,0 +1,204 @@
+/* MH Spielturm Vergleich — Admin Styles v5.6.0 */
+
+.mh-stv-admin .mh-stv-card {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+.mh-stv-admin .mh-stv-card h2 {
+	margin-top: 0;
+	padding: 0;
+	border: none;
+}
+
+/* Version badge */
+.mh-stv-version {
+	font-size: 12px;
+	font-weight: 400;
+	color: #787c82;
+	background: #f0f0f1;
+	padding: 2px 8px;
+	border-radius: 3px;
+	vertical-align: middle;
+	margin-left: 8px;
+}
+
+/* Section headers inside group cards */
+.mh-stv-section-header {
+	margin: 20px 0 8px;
+	padding-top: 16px;
+	border-top: 1px solid #e2e4e7;
+}
+.mh-stv-section-header h3 {
+	margin: 0 0 4px;
+	font-size: 14px;
+}
+.mh-stv-section-header .description {
+	margin-top: 2px;
+	margin-bottom: 8px;
+}
+
+/* ── Editable tables (Series + Levels) ── */
+.mh-stv-editable-table {
+	margin-bottom: 16px;
+}
+.mh-stv-editable-table thead th {
+	background: #f6f7f7;
+	font-weight: 600;
+	padding: 8px 10px;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: #50575e;
+}
+.mh-stv-editable-table tbody td {
+	padding: 6px 8px;
+	vertical-align: middle;
+}
+.mh-stv-editable-table tfoot td {
+	padding: 10px 8px;
+	border-top: 1px solid #e2e4e7;
+}
+
+/* Column widths */
+.mh-stv-col-key     { width: 130px; }
+.mh-stv-col-label   { width: 220px; }
+.mh-stv-col-icon    { width: 60px; }
+.mh-stv-col-features,
+.mh-stv-col-extras  { /* flex-grow */ }
+.mh-stv-col-handle  { width: 36px; text-align: center; }
+.mh-stv-col-actions { width: 44px; text-align: center; }
+
+/* Key input — monospace */
+.mh-stv-input-key {
+	width: 120px;
+	font-family: Consolas, Monaco, "Courier New", monospace;
+	font-size: 12px;
+}
+
+/* Icon input — small */
+.mh-stv-input-icon {
+	width: 48px;
+	text-align: center;
+	font-size: 16px;
+}
+
+/* Row number */
+.mh-stv-row-num {
+	width: 30px;
+	text-align: center;
+	font-weight: 700;
+	color: #787c82;
+	font-size: 13px;
+}
+
+/* Remove button */
+.mh-stv-remove-row {
+	color: #d63638 !important;
+	border-color: #d63638 !important;
+	min-width: 32px;
+	padding: 0 6px !important;
+	font-size: 18px !important;
+	line-height: 28px !important;
+}
+.mh-stv-remove-row:hover {
+	background: #d63638 !important;
+	color: #fff !important;
+}
+
+/* Add button */
+.mh-stv-add-row {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+/* New row highlight */
+.mh-stv-row-new td {
+	background: #fcf9e8 !important;
+	transition: background .6s ease;
+}
+
+/* Alternating row colors */
+.mh-stv-editable-table tbody tr:nth-child(even) td {
+	background: #f9f9f9;
+}
+.mh-stv-editable-table tbody tr:hover td {
+	background: #f0f6fc;
+}
+
+/* ── Produkt-Matrix ── */
+.mh-stv-matrix { margin-top: 10px; }
+.mh-stv-matrix th {
+	background: #f0f0f1;
+	font-weight: 600;
+	padding: 10px 12px;
+}
+.mh-stv-matrix td {
+	padding: 10px 12px;
+	vertical-align: top;
+}
+.mh-stv-matrix input[type="number"] { width: 80px; }
+.mh-stv-product-hint {
+	display: inline-block;
+	margin-top: 4px;
+	color: #50575e;
+	font-size: 12px;
+}
+.mh-stv-product-hint.mh-stv-error {
+	color: #d63638;
+	font-weight: 600;
+}
+
+/* Rebuild hint */
+.mh-stv-hint-rebuild {
+	color: #996800;
+	background: #fcf9e8;
+	padding: 6px 10px;
+	border-radius: 3px;
+	border-left: 3px solid #dba617;
+}
+
+/* ── Features Matrix (Serie × Stufe) ── */
+.mh-stv-features-matrix {
+	margin-bottom: 20px;
+}
+.mh-stv-features-matrix thead th {
+	background: #f6f7f7;
+	font-weight: 600;
+	padding: 8px 10px;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: #50575e;
+	text-align: center;
+}
+.mh-stv-features-matrix tbody th {
+	background: #f6f7f7;
+	font-weight: 600;
+	padding: 10px 12px;
+	white-space: nowrap;
+	font-size: 13px;
+}
+.mh-stv-features-matrix tbody td {
+	padding: 6px 8px;
+	vertical-align: middle;
+}
+.mh-stv-fm-corner {
+	text-align: left !important;
+	font-size: 11px !important;
+	color: #787c82 !important;
+}
+.mh-stv-fm-input {
+	width: 100%;
+	min-width: 160px;
+	font-size: 12px;
+}
+.mh-stv-features-matrix tbody tr:nth-child(even) td {
+	background: #f9f9f9;
+}
+.mh-stv-features-matrix tbody tr:hover td {
+	background: #f0f6fc;
+}

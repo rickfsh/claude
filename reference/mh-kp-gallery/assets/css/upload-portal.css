@@ -1,0 +1,439 @@
+/* ═══════════════════════════════════════════════════════════
+   MH Upload Portal — Frontend Styles
+   ═══════════════════════════════════════════════════════════ */
+
+.mh-portal {
+    --p-accent: #f7af4a;
+    --p-accent-dark: #e59a2f;
+    --p-accent-light: #fef7ea;
+    --p-green: #46b450;
+    --p-red: #dc3232;
+    --p-dark: #1d2327;
+    --p-gray-700: #50575e;
+    --p-gray-500: #8c8f94;
+    --p-gray-300: #c3c4c7;
+    --p-gray-100: #f0f0f1;
+    --p-white: #ffffff;
+    --p-radius: 10px;
+    --p-radius-lg: 14px;
+    --p-shadow: 0 2px 8px rgba(0,0,0,.06);
+    --p-shadow-lg: 0 8px 30px rgba(0,0,0,.1);
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ── Loading ────────────────────────────────────────────── */
+.mh-portal-loading {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 80px 20px; color: var(--p-gray-500);
+}
+.mh-portal-spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--p-gray-100); border-top-color: var(--p-accent);
+    border-radius: 50%; animation: mhPortalSpin .7s linear infinite;
+    margin-bottom: 14px;
+}
+@keyframes mhPortalSpin { to { transform: rotate(360deg); } }
+
+/* ══════════════════════════════════════════════════════════
+   LOGIN SCREEN
+   ══════════════════════════════════════════════════════════ */
+.mh-portal-login {
+    max-width: 400px; margin: 60px auto;
+    text-align: center;
+}
+.mh-portal-login-card {
+    background: var(--p-white);
+    border: 1px solid var(--p-gray-100);
+    border-radius: var(--p-radius-lg);
+    padding: 40px 32px;
+    box-shadow: var(--p-shadow-lg);
+}
+.mh-portal-login-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--p-accent-light);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; font-size: 24px;
+}
+.mh-portal-login-card h2 {
+    font-size: 22px; font-weight: 700; color: var(--p-dark);
+    margin: 0 0 6px;
+}
+.mh-portal-login-card p {
+    font-size: 14px; color: var(--p-gray-500); margin: 0 0 24px;
+}
+.mh-portal-login-input {
+    width: 100%; padding: 14px 18px; box-sizing: border-box;
+    border: 2px solid var(--p-gray-300); border-radius: var(--p-radius);
+    font-size: 16px; text-align: center; letter-spacing: 2px;
+    transition: border-color .2s;
+}
+.mh-portal-login-input:focus {
+    outline: none; border-color: var(--p-accent);
+    box-shadow: 0 0 0 4px rgba(247,175,74,.15);
+}
+.mh-portal-login-input.error { border-color: var(--p-red); }
+.mh-portal-login-btn {
+    display: block; width: 100%; padding: 14px; margin-top: 16px;
+    background: var(--p-accent); color: #fff; border: none;
+    border-radius: var(--p-radius); font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: background .2s;
+}
+.mh-portal-login-btn:hover { background: var(--p-accent-dark); }
+.mh-portal-login-btn:disabled { opacity: .5; cursor: not-allowed; }
+.mh-portal-login-error {
+    margin-top: 12px; font-size: 13px; color: var(--p-red); font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════════
+   APP LAYOUT
+   ══════════════════════════════════════════════════════════ */
+.mh-portal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+}
+.mh-portal-title {
+    font-size: 24px; font-weight: 700; color: var(--p-dark);
+    display: flex; align-items: center; gap: 10px;
+    margin: 0;
+}
+.mh-portal-header-actions { display: flex; gap: 10px; }
+
+.mh-portal-layout {
+    display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start;
+}
+@media (max-width: 900px) { .mh-portal-layout { grid-template-columns: 1fr; } }
+
+/* ── Sidebar ────────────────────────────────────────────── */
+.mh-portal-sidebar {
+    background: var(--p-white); border-radius: var(--p-radius-lg);
+    box-shadow: var(--p-shadow); overflow: hidden;
+    border: 1px solid var(--p-gray-100);
+}
+.mh-portal-sidebar-head {
+    padding: 14px 16px; border-bottom: 1px solid var(--p-gray-100);
+    font-size: 13px; font-weight: 700; color: var(--p-dark);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.mh-portal-sidebar-search {
+    width: 100%; padding: 10px 14px; border: none; box-sizing: border-box;
+    border-bottom: 1px solid var(--p-gray-100);
+    font-size: 13px; background: var(--p-gray-100);
+}
+.mh-portal-sidebar-search:focus { outline: none; background: #fff; }
+.mh-portal-list { max-height: 65vh; overflow-y: auto; }
+.mh-portal-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; cursor: pointer;
+    border-bottom: 1px solid var(--p-gray-100);
+    transition: background .15s;
+}
+.mh-portal-item:hover { background: var(--p-accent-light); }
+.mh-portal-item.active { background: var(--p-accent-light); border-left: 3px solid var(--p-accent); }
+.mh-portal-item-thumb {
+    width: 44px; height: 44px; border-radius: 6px;
+    object-fit: cover; flex-shrink: 0; background: var(--p-gray-100);
+}
+.mh-portal-item-placeholder {
+    width: 44px; height: 44px; border-radius: 6px;
+    background: var(--p-gray-100); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--p-gray-300); font-size: 18px;
+}
+.mh-portal-item-name {
+    font-size: 13px; font-weight: 600; color: var(--p-dark);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mh-portal-item-date { font-size: 11px; color: var(--p-gray-500); margin-top: 2px; }
+.mh-portal-item-status {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 8px; flex-shrink: 0;
+}
+.mh-portal-item-status.publish { background: #edf7ee; color: #1e7e34; }
+.mh-portal-item-status.draft { background: var(--p-gray-100); color: var(--p-gray-500); }
+
+/* ── Main ───────────────────────────────────────────────── */
+.mh-portal-main { display: flex; flex-direction: column; gap: 20px; }
+
+/* ── Cards ──────────────────────────────────────────────── */
+.mh-portal-card {
+    background: var(--p-white); border: 1px solid var(--p-gray-100);
+    border-radius: var(--p-radius-lg); box-shadow: var(--p-shadow);
+    overflow: visible; /* Allow dropdowns to escape card bounds */
+}
+.mh-portal-card-head {
+    padding: 14px 18px; border-bottom: 1px solid var(--p-gray-100);
+    display: flex; align-items: center; justify-content: space-between;
+    border-radius: var(--p-radius-lg) var(--p-radius-lg) 0 0;
+    background: var(--p-white);
+}
+.mh-portal-card-head h3 {
+    font-size: 15px; font-weight: 700; color: var(--p-dark);
+    margin: 0; display: flex; align-items: center; gap: 8px;
+}
+.mh-portal-card-body { padding: 18px; overflow: visible; }
+
+/* ── Form ───────────────────────────────────────────────── */
+.mh-portal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mh-portal-form-grid .wide { grid-column: 1 / -1; }
+@media (max-width: 600px) { .mh-portal-form-grid { grid-template-columns: 1fr; } }
+
+.mh-portal-label {
+    display: block; font-size: 11px; font-weight: 700; color: var(--p-gray-700);
+    text-transform: uppercase; letter-spacing: .3px; margin-bottom: 5px;
+}
+.mh-portal-input,
+.mh-portal-textarea,
+.mh-portal-select {
+    width: 100%; padding: 10px 14px; box-sizing: border-box;
+    border: 1.5px solid var(--p-gray-300); border-radius: var(--p-radius);
+    font-size: 14px; color: var(--p-dark); transition: border-color .2s;
+}
+.mh-portal-input:focus,
+.mh-portal-textarea:focus,
+.mh-portal-select:focus {
+    outline: none; border-color: var(--p-accent);
+    box-shadow: 0 0 0 3px rgba(247,175,74,.12);
+}
+.mh-portal-textarea { resize: vertical; min-height: 70px; }
+
+.mh-portal-checkbox {
+    display: inline-flex; align-items: center; gap: 7px;
+    cursor: pointer; font-size: 14px; color: var(--p-gray-700);
+}
+.mh-portal-checkbox input { width: 18px; height: 18px; accent-color: var(--p-accent); }
+
+.mh-portal-cat-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.mh-portal-cat-tag {
+    padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 1.5px solid var(--p-gray-300);
+    background: var(--p-white); color: var(--p-gray-700);
+    transition: all .15s;
+}
+.mh-portal-cat-tag:hover { border-color: var(--p-accent); }
+.mh-portal-cat-tag.on { background: var(--p-accent); color: #fff; border-color: var(--p-accent); }
+
+/* ── Upload Zone ────────────────────────────────────────── */
+.mh-portal-dropzone {
+    border: 2px dashed var(--p-gray-300); border-radius: var(--p-radius-lg);
+    padding: 36px 16px; text-align: center; cursor: pointer;
+    transition: all .2s; background: var(--p-gray-100);
+}
+.mh-portal-dropzone:hover,
+.mh-portal-dropzone.over {
+    border-color: var(--p-accent); background: var(--p-accent-light);
+}
+.mh-portal-dropzone-icon { font-size: 36px; margin-bottom: 6px; opacity: .5; }
+.mh-portal-dropzone-text { font-size: 15px; font-weight: 600; color: var(--p-gray-700); }
+.mh-portal-dropzone-hint { font-size: 12px; color: var(--p-gray-500); margin-top: 3px; }
+
+.mh-portal-progress { margin-top: 12px; }
+.mh-portal-progress-bar {
+    height: 5px; background: var(--p-gray-100); border-radius: 3px; overflow: hidden;
+}
+.mh-portal-progress-fill {
+    height: 100%; background: var(--p-accent); border-radius: 3px;
+    transition: width .3s;
+}
+
+/* ── Image Gallery ───────────────────────────────────────── */
+.mh-portal-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+}
+.mh-portal-gallery-item {
+    position: relative; border-radius: var(--p-radius);
+    overflow: hidden; aspect-ratio: 4/3;
+    border: 2px solid transparent;
+    transition: border-color .15s;
+}
+.mh-portal-gallery-item:first-child { border-color: var(--p-accent); }
+.mh-portal-gallery-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.mh-portal-gallery-remove {
+    position: absolute; top: 4px; right: 4px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(220,50,50,.85); color: #fff; border: none;
+    font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .15s;
+}
+.mh-portal-gallery-item:hover .mh-portal-gallery-remove { opacity: 1; }
+.mh-portal-gallery-badge {
+    position: absolute; bottom: 4px; left: 4px;
+    background: var(--p-accent); color: #fff;
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 4px; letter-spacing: .3px;
+}
+.mh-portal-gallery-add {
+    border: 2px dashed var(--p-gray-300); border-radius: var(--p-radius);
+    aspect-ratio: 4/3; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: all .15s; background: var(--p-gray-100);
+}
+.mh-portal-gallery-add:hover,
+.mh-portal-gallery-add.over {
+    border-color: var(--p-accent); background: var(--p-accent-light);
+}
+.mh-portal-gallery-add-icon {
+    font-size: 28px; color: var(--p-gray-500); line-height: 1;
+}
+.mh-portal-gallery-add-text {
+    font-size: 11px; color: var(--p-gray-500); margin-top: 4px;
+}
+
+/* ── Pin Editor ─────────────────────────────────────────── */
+.mh-portal-pin-hint {
+    background: var(--p-accent-light); border: 1px solid #f5d89a;
+    border-radius: var(--p-radius); padding: 10px 14px;
+    font-size: 13px; color: var(--p-gray-700); margin-bottom: 12px;
+}
+.mh-portal-pin-canvas-wrap {
+    border: 2px solid var(--p-gray-300); border-radius: var(--p-radius);
+    overflow: hidden; background: #111; margin-bottom: 14px;
+}
+.mh-portal-pin-canvas {
+    position: relative; cursor: crosshair;
+    display: inline-block; width: 100%;
+}
+.mh-portal-pin-canvas img {
+    display: block; width: 100%; height: auto;
+    pointer-events: none; user-select: none;
+}
+
+/* Pins */
+.mh-portal-pin {
+    position: absolute; width: 30px; height: 30px;
+    margin-left: -15px; margin-top: -15px;
+    background: var(--p-accent); border: 3px solid #fff;
+    border-radius: 50%; cursor: grab;
+    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 11px; font-weight: 700; z-index: 10;
+    transition: transform .15s;
+}
+.mh-portal-pin:hover { transform: scale(1.15); }
+.mh-portal-pin.no-product { background: var(--p-red); animation: mhPortalPulse 1.5s infinite; }
+@keyframes mhPortalPulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(220,50,50,.4); }
+    50% { box-shadow: 0 0 0 8px rgba(220,50,50,0); }
+}
+
+/* Pin List */
+.mh-portal-pin-list { display: flex; flex-direction: column; gap: 6px; overflow: visible; }
+.mh-portal-pin-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: var(--p-radius);
+    background: var(--p-gray-100); border: 1px solid transparent;
+    transition: all .15s; overflow: visible;
+}
+.mh-portal-pin-row.no-product { border-color: var(--p-red); background: #fbeaea; }
+.mh-portal-pin-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--p-accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.mh-portal-pin-row.no-product .mh-portal-pin-num { background: var(--p-red); }
+.mh-portal-pin-coords {
+    font-size: 10px; color: var(--p-gray-500); width: 72px; flex-shrink: 0;
+    font-family: monospace;
+}
+.mh-portal-pin-product {
+    flex: 1; display: flex; align-items: center; gap: 6px; min-width: 0;
+}
+.mh-portal-pin-product img {
+    width: 28px; height: 28px; object-fit: cover; border-radius: 4px; flex-shrink: 0;
+}
+.mh-portal-pin-product-name {
+    font-size: 12px; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Pin Search */
+.mh-portal-pin-search-wrap { flex: 1; position: relative; min-width: 160px; z-index: 100; }
+.mh-portal-pin-search {
+    width: 100%; padding: 7px 10px; box-sizing: border-box;
+    border: 1.5px solid var(--p-gray-300); border-radius: var(--p-radius);
+    font-size: 12px;
+}
+.mh-portal-pin-search:focus { outline: none; border-color: var(--p-accent); }
+.mh-portal-pin-dd {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--p-white); border: 1.5px solid var(--p-accent);
+    border-radius: 0 0 var(--p-radius) var(--p-radius);
+    max-height: 240px; overflow-y: auto; display: none; z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0,0,0,.15);
+}
+.mh-portal-pin-dd.open { display: block; }
+.mh-portal-pin-dd-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; cursor: pointer; font-size: 13px;
+    border-bottom: 1px solid var(--p-gray-100); transition: background .1s;
+}
+.mh-portal-pin-dd-item:last-child { border-bottom: none; }
+.mh-portal-pin-dd-item:hover { background: var(--p-accent-light); }
+.mh-portal-pin-dd-item img { width: 36px; height: 36px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+.mh-portal-pin-dd-item span { line-height: 1.3; }
+
+.mh-portal-pin-remove {
+    background: var(--p-red); color: #fff; border: none;
+    border-radius: 50%; width: 24px; height: 24px; font-size: 14px;
+    cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+.mh-portal-pin-remove:hover { background: #a00; }
+
+/* ── Buttons ────────────────────────────────────────────── */
+.mh-portal-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: var(--p-radius);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    border: 2px solid transparent; transition: all .2s;
+}
+.mh-portal-btn:disabled { opacity: .5; cursor: not-allowed; }
+.mh-portal-btn-primary { background: var(--p-accent); color: #fff; border-color: var(--p-accent); }
+.mh-portal-btn-primary:hover { background: var(--p-accent-dark); }
+.mh-portal-btn-secondary { background: #fff; color: var(--p-gray-700); border-color: var(--p-gray-300); }
+.mh-portal-btn-secondary:hover { border-color: var(--p-accent); color: var(--p-accent); }
+.mh-portal-btn-danger { background: #fff; color: var(--p-red); border-color: var(--p-red); }
+.mh-portal-btn-danger:hover { background: var(--p-red); color: #fff; }
+.mh-portal-btn-sm { padding: 6px 12px; font-size: 12px; }
+
+/* ── Save Bar ───────────────────────────────────────────── */
+.mh-portal-save-bar {
+    position: sticky; bottom: 0;
+    padding: 14px 18px; background: var(--p-white);
+    border-top: 2px solid var(--p-accent);
+    border-radius: 0 0 var(--p-radius-lg) var(--p-radius-lg);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; z-index: 40;
+    box-shadow: 0 -4px 16px rgba(0,0,0,.05);
+}
+.mh-portal-save-status { font-size: 13px; color: var(--p-gray-500); }
+
+/* ── Empty ──────────────────────────────────────────────── */
+.mh-portal-empty {
+    text-align: center; padding: 50px 20px; color: var(--p-gray-500);
+}
+.mh-portal-empty-icon { font-size: 44px; margin-bottom: 10px; opacity: .4; }
+.mh-portal-empty h3 { font-size: 17px; color: var(--p-dark); margin: 0 0 6px; }
+.mh-portal-empty p { font-size: 14px; margin: 0; }
+
+/* ── Toast ──────────────────────────────────────────────── */
+.mh-portal-toast {
+    position: fixed; bottom: 20px; right: 20px;
+    padding: 12px 18px; border-radius: var(--p-radius);
+    font-size: 14px; font-weight: 600; z-index: 99999;
+    box-shadow: var(--p-shadow-lg); animation: mhPortalToastIn .25s ease;
+}
+.mh-portal-toast.ok { background: #1e7e34; color: #fff; }
+.mh-portal-toast.err { background: var(--p-red); color: #fff; }
+@keyframes mhPortalToastIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}

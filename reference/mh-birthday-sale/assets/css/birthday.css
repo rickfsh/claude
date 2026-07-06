@@ -1,0 +1,218 @@
+/* MH Birthday Sale – Planer-Override Styles v1.0.0 */
+
+/* ---------- Unlock-Tracker ---------- */
+.mhbs-tracker {
+	position: relative;
+	overflow: visible;
+	background: #fff;
+	border: 1px solid #e6e6e3;
+	border-radius: 10px;
+	padding: 14px 16px;
+	margin: 0 0 16px;
+	font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.mhbs-tracker-title {
+	font-size: 13px;
+	font-weight: 700;
+	color: #060B23;
+	letter-spacing: 0.2px;
+	margin-bottom: 10px;
+}
+
+.mhbs-steps {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+}
+
+.mhbs-step {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	font-size: 13px;
+	color: #444444;
+}
+
+.mhbs-step-icon {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 700;
+	flex: 0 0 auto;
+}
+
+.mhbs-step--ok .mhbs-step-icon {
+	background: #e7f4ec;
+	color: #1e7d3e;
+}
+
+.mhbs-step--todo .mhbs-step-icon {
+	background: #f1f1ef;
+	color: #9a9a94;
+}
+
+.mhbs-step--todo .mhbs-step-text {
+	color: #9a9a94;
+}
+
+.mhbs-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 700;
+	padding: 5px 12px;
+	border-radius: 999px;
+	margin-left: auto;
+	white-space: nowrap;
+}
+
+.mhbs-chip--on {
+	background: #FF9000;
+	color: #fff;
+}
+
+.mhbs-chip--off {
+	background: #f1f1ef;
+	color: #9a9a94;
+}
+
+/* ---------- Badge an der Taiga-Zeile ---------- */
+.mhbs-badge {
+	display: inline-block;
+	background: #FF9000;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	padding: 3px 7px;
+	border-radius: 4px;
+	margin-left: 8px;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+/* ---------- Ersparnis-Block ---------- */
+.mhbs-savings {
+	background: #FFF7EA;
+	border: 1px solid #FAD9A6;
+	border-radius: 10px;
+	padding: 14px 16px;
+	margin: 14px 0;
+	font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.mhbs-savings-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	font-size: 14px;
+	color: #444444;
+	padding: 2px 0;
+}
+
+.mhbs-neg {
+	color: #b25e00;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.mhbs-savings-total {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 12px;
+	border-top: 1px dashed #FAD9A6;
+	margin-top: 8px;
+	padding-top: 8px;
+	font-size: 15px;
+	font-weight: 700;
+	color: #060B23;
+}
+
+.mhbs-new-price {
+	font-size: 20px;
+	white-space: nowrap;
+}
+
+.mhbs-savings-orig {
+	text-align: right;
+	font-size: 12px;
+	color: #9a9a94;
+	margin-top: 2px;
+}
+
+.mhbs-savings-note {
+	font-size: 11.5px;
+	color: #9a9a94;
+	margin-top: 8px;
+}
+
+.mhbs-savings-teaser {
+	font-size: 13px;
+	color: #444444;
+}
+
+/* ---------- Gesamtpreis-Rewrite ---------- */
+.mhbs-total-new {
+	color: #060B23;
+	font-weight: 700;
+}
+
+.mhbs-total-old {
+	color: #9a9a94;
+	font-weight: 400;
+	font-size: 0.85em;
+	margin-left: 6px;
+}
+
+/* ---------- Konfetti ---------- */
+.mhbs-confetti {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	pointer-events: none;
+	overflow: hidden;
+	border-radius: 10px;
+}
+
+.mhbs-confetti-piece {
+	position: absolute;
+	top: -12px;
+	width: 7px;
+	height: 11px;
+	border-radius: 2px;
+	opacity: 0.9;
+	animation: mhbsFall linear forwards;
+}
+
+@keyframes mhbsFall {
+	to {
+		transform: translateY(140px) rotate(540deg);
+		opacity: 0;
+	}
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 560px) {
+	.mhbs-chip {
+		margin-left: 0;
+	}
+
+	.mhbs-savings-row,
+	.mhbs-savings-total {
+		font-size: 13px;
+	}
+
+	.mhbs-new-price {
+		font-size: 18px;
+	}
+}
