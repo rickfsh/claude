@@ -1,0 +1,327 @@
+/* === v2.6 Design-Polishing === */
+
+/* #1 Stagger-Entrance Animation */
+@keyframes mhBtSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.mh-bt-product { opacity:0; animation:mhBtSlideIn .4s ease forwards; }
+.mh-bt-product:nth-child(1) { animation-delay:.05s; }
+.mh-bt-product:nth-child(2) { animation-delay:.15s; }
+.mh-bt-product:nth-child(3) { animation-delay:.25s; }
+.mh-bt-product:nth-child(4) { animation-delay:.35s; }
+.mh-bt-product:nth-child(5) { animation-delay:.45s; }
+.mh-bt-plus-separator { opacity:0; animation:mhBtSlideIn .3s ease forwards; }
+.mh-bt-plus-separator:nth-child(2) { animation-delay:.1s; }
+.mh-bt-plus-separator:nth-child(4) { animation-delay:.2s; }
+.mh-bt-plus-separator:nth-child(6) { animation-delay:.3s; }
+.mh-bt-plus-separator:nth-child(8) { animation-delay:.4s; }
+
+/* Checkbox-Bounce Animation */
+@keyframes mhBtBounce { 0%{transform:scale(1)} 40%{transform:scale(1.2)} 70%{transform:scale(0.9)} 100%{transform:scale(1)} }
+
+/* v3.2.4: Full-width — matches IP widget container width */
+.mh-bt-widget { margin:1.5em 0; padding:1em 0; border:none; border-radius:0; background:transparent; width:100%; box-sizing:border-box; box-shadow:none; border-top:1px solid #eee; }
+
+/* Heading — smaller, lighter */
+.mh-bt-heading { font-size:1.05em; margin:0 0 0.3em; padding-bottom:0; border-bottom:none; display:flex; align-items:center; gap:0.4em; flex-wrap:wrap; font-weight:600; }
+
+/* Social Proof — smaller */
+.mh-bt-social-proof { display:flex; align-items:center; gap:0.35em; font-size:0.72em; color:#999; margin-bottom:0.5em; }
+.mh-bt-social-proof svg { flex-shrink:0; color:#bbb; }
+
+/* Qty-Sync Hint — text only, no box */
+.mh-bt-qty-sync-hint { display:flex; align-items:center; gap:0.35em; font-size:0.7em; color:#bbb; margin-bottom:0.5em; padding:0; background:none; border:none; border-radius:0; line-height:1.3; }
+.mh-bt-qty-sync-hint svg { flex-shrink:0; color:#ccc; }
+
+/* Bundle-Rabatt Fortschrittsbalken — v3.2.1 quieter */
+@keyframes mhBtMilestoneHit { 0%{transform:translateX(50%) scale(1)} 40%{transform:translateX(50%) scale(1.15)} 100%{transform:translateX(50%) scale(1)} }
+.mh-bt-bundle-progress { margin-bottom:0.5em; }
+.mh-bt-bundle-progress__track { height:4px; border-radius:2px; background:#f0f0f0; overflow:visible; position:relative; }
+.mh-bt-bundle-progress__fill { height:100%; border-radius:2px; background:#ddd; transition:width .5s cubic-bezier(.34,1.56,.64,1); }
+.mh-bt-bundle-progress__fill.mh-bt-bundle-progress--reached { background:#5cb85c; }
+.mh-bt-bundle-progress__milestone { position:absolute; top:-5px; right:0; width:14px; height:14px; border-radius:50%; background:#fff; border:1.5px solid #ddd; z-index:2; transform:translateX(50%); transition:border-color .3s ease,background .3s ease; display:flex; align-items:center; justify-content:center; }
+.mh-bt-bundle-progress__milestone.mh-bt-bundle-progress--reached { border-color:#5cb85c; background:#5cb85c; animation:mhBtMilestoneHit .3s ease; }
+.mh-bt-bundle-progress__milestone svg { opacity:0; transition:opacity .2s ease; }
+.mh-bt-bundle-progress__milestone.mh-bt-bundle-progress--reached svg { opacity:1; }
+.mh-bt-bundle-progress__info { display:flex; justify-content:space-between; align-items:center; margin-top:0.25em; }
+.mh-bt-bundle-progress__text { font-size:0.65em; font-weight:400; color:#aaa; transition:color .3s ease; }
+.mh-bt-bundle-progress__text.mh-bt-bundle-progress--reached { color:#5cb85c; }
+.mh-bt-bundle-progress__badge { display:none !important; }
+
+/* Plus-Separator */
+.mh-bt-products { display:flex; flex-direction:column; gap:0; }
+
+/* v2.9.6: Show-more — elegant chip */
+.mh-bt-collapsible { display:flex; flex-direction:column; gap:0; }
+.mh-bt-show-more { display:flex; align-items:center; justify-content:center; gap:0.35em; background:rgba(0,0,0,0.025); border:none; border-radius:20px; padding:0.45em 1.2em; margin:0.6em auto 0.2em; font-size:0.75em; color:#999; cursor:pointer; transition:all .2s ease; width:auto; }
+.mh-bt-show-more:hover { background:rgba(0,0,0,0.05); color:#666; }
+.mh-bt-show-more__icon { transition:transform .25s ease; width:12px; height:12px; }
+.mh-bt-show-more--open .mh-bt-show-more__icon { transform:rotate(180deg); }
+
+/* Optional Box — subtle blue accent */
+.mh-bt-widget--optional { background:transparent; box-shadow:none; border-left:3px solid #3498db; border-top:none; padding-left:1em; border-radius:0; }
+.mh-bt-widget--optional .mh-bt-heading { font-size:1.1em; color:#555; }
+.mh-bt-widget--optional .mh-bt-add-all { background:#3498db!important; }
+.mh-bt-widget--optional .mh-bt-add-all:hover { background:#2980b9!important; }
+.mh-bt-plus-separator { display:flex; align-items:center; justify-content:center; padding:0.05em 0; transition:opacity .3s ease; }
+/* Plus-Icon — flat, no circle bg */
+.mh-bt-plus-separator__icon { width:20px; height:20px; border-radius:50%; background:transparent; border:none; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:400; color:#ddd; line-height:1; transition:color .2s ease; }
+.mh-bt-plus-separator__icon:hover { color:#bbb; }
+
+/* v2.6 #6: Plus separator dims when next product is unchecked */
+.mh-bt-plus-separator.mh-bt-dimmed { animation:none; opacity:0.3; transition:opacity .3s ease; }
+
+/* Product Rows — compact, calm */
+@keyframes mhBtQtyHighlight { 0%{background:rgba(247,175,74,0.05)} 100%{background:transparent} }
+.mh-bt-product__label { display:flex; align-items:center; gap:0.6em; padding:0.5em 0.35em; border:none; border-radius:0; border-bottom:1px solid #f5f5f5; background:transparent; cursor:pointer; transition:background .2s ease,opacity .3s ease,filter .3s ease; min-width:0; }
+/* v2.9 A2: Qty-sync highlight pulse */
+.mh-bt-product.mh-bt-qty-highlight .mh-bt-product__label { animation:mhBtQtyHighlight .5s ease forwards; }
+.mh-bt-product__label:hover { background:rgba(0,0,0,0.01); }
+.mh-bt-product--main .mh-bt-product__label { background:transparent; border-bottom:1px solid #f0f0f0; }
+.mh-bt-product--main .mh-bt-product__label:hover { background:rgba(0,0,0,0.01); }
+
+/* Unchecked product dimming */
+.mh-bt-product.mh-bt-unchecked .mh-bt-product__label { opacity:0.45; filter:grayscale(30%); }
+.mh-bt-product.mh-bt-unchecked .mh-bt-product__label:hover { opacity:0.65; filter:grayscale(10%); background:rgba(0,0,0,0.015); }
+/* v2.9.8: Checked linked product — subtle indicator */
+.mh-bt-product.mh-bt-checked .mh-bt-product__label { border-radius:0; }
+
+/* Focus ring — subtle */
+@keyframes mhBtFocusFade { 0%{box-shadow:0 0 0 2px rgba(0,0,0,0.06)} 100%{box-shadow:0 0 0 0 rgba(0,0,0,0)} }
+.mh-bt-product__label:focus-within { outline:none; animation:mhBtFocusFade .6s ease forwards; }
+
+/* Custom Checkbox */
+.mh-bt-checkbox { position:absolute; opacity:0; width:0; height:0; pointer-events:none; }
+.mh-bt-checkbox-custom { flex-shrink:0; width:20px; height:20px; border-radius:4px; border:1.5px solid #ccc; background:#fff; display:flex; align-items:center; justify-content:center; transition:all .2s ease; pointer-events:none; }
+.mh-bt-checkbox-custom svg { opacity:0; transform:scale(0.5); transition:all .15s ease; }
+.mh-bt-checkbox:checked + .mh-bt-checkbox-custom { background:#f7af4a; border-color:#f7af4a; animation:mhBtBounce .3s ease; }
+.mh-bt-checkbox:checked + .mh-bt-checkbox-custom svg { opacity:1; transform:scale(1); }
+/* v2.9 D2: Main product lock pin — replaces disabled checkbox */
+.mh-bt-main-pin { flex-shrink:0; width:20px; height:20px; display:flex; align-items:center; justify-content:center; color:#ccc; opacity:0.7; }
+
+/* Image — compact */
+.mh-bt-product__image { flex-shrink:0; width:46px; height:46px; overflow:hidden; border-radius:5px; border:1px solid #eee; box-shadow:none; position:relative; transition:border-color .2s ease; }
+.mh-bt-product__image img { width:46px; height:46px; object-fit:cover; border-radius:4px; transition:transform .25s ease; }
+/* v2.9.2: Hover only on direct image interaction, not full row */
+.mh-bt-product__image:hover img { transform:scale(1.03); }
+.mh-bt-product__image:hover { border-color:#ddd; }
+
+/* v2.6 #9: Image hover link hint */
+.mh-bt-image-hint { position:absolute; bottom:3px; right:3px; width:18px; height:18px; border-radius:4px; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .25s ease; pointer-events:none; }
+.mh-bt-image-hint svg { color:#fff; }
+.mh-bt-product__image:hover .mh-bt-image-hint { opacity:1; }
+
+/* v2.9.2: Image preview tooltip — appended to body, fixed positioning */
+.mh-bt-preview-tooltip { position:fixed; z-index:99999; background:#fff; border:1px solid #e8e8e8; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.12); padding:6px; pointer-events:none; opacity:0; transition:opacity .2s ease; }
+.mh-bt-preview-tooltip.mh-bt-preview--visible { opacity:1; }
+.mh-bt-preview-tooltip img { display:block; width:120px; height:120px; object-fit:cover; border-radius:5px; }
+.mh-bt-preview-tooltip__name { display:block; max-width:120px; font-size:0.7em; color:#555; text-align:center; margin-top:4px; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Product Info */
+.mh-bt-product__info { display:flex; flex-direction:column; gap:0.15em; min-width:0; flex:1; }
+.mh-bt-product__name { font-weight:500; font-size:0.82em; line-height:1.3; display:flex; align-items:center; gap:0.4em; flex-wrap:wrap; overflow-wrap:anywhere; word-break:break-word; min-width:0; }
+.mh-bt-product__name a { color:inherit; text-decoration:none; }
+.mh-bt-product__name a:hover { text-decoration:underline; }
+/* Reason / explanation text with info icon */
+.mh-bt-product__reason { font-size:0.78em; color:#777; font-style:italic; line-height:1.3; display:flex; align-items:center; gap:0.3em; }
+.mh-bt-product__reason svg { flex-shrink:0; color:#bbb; width:13px; height:13px; }
+.mh-bt-product__price { font-size:0.85em; color:#555; display:inline-flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+.mh-bt-product__price * { margin:0; padding:0; }
+.mh-bt-product__price del { color:#aaa; font-size:0.88em; font-weight:400; text-decoration:line-through; text-decoration-color:#ccc; }
+.mh-bt-product__price del .woocommerce-Price-amount { color:#aaa; }
+.mh-bt-product__price ins { text-decoration:none; font-weight:700; color:inherit; font-size:1.05em; }
+.mh-bt-product__price del + ins { position:relative; }
+
+/* v3.2.4: Qty Stepper — right-aligned in product row */
+.mh-bt-product__qty-calc { display:inline-flex; align-items:center; flex-shrink:0; position:relative; font-size:0.8em; margin-left:auto; }
+.mh-bt-product__qty-calc:empty { display:none; }
+.mh-bt-qty-stepper { display:inline-flex; align-items:stretch; border:1px solid #e0e0e0; border-radius:6px; overflow:hidden; height:2em; background:#fafafa; }
+.mh-bt-qty-btn { display:flex; align-items:center; justify-content:center; width:1.8em; flex-shrink:0; background:#f5f5f5!important; border:none!important; color:#555!important; font-size:14px!important; font-weight:400!important; cursor:pointer; transition:background .15s ease,color .15s ease; padding:0!important; margin:0!important; line-height:1!important; -webkit-text-fill-color:#555!important; user-select:none; }
+.mh-bt-qty-btn:hover { background:#eee!important; color:#222!important; -webkit-text-fill-color:#222!important; }
+.mh-bt-qty-btn:active { background:#e0e0e0!important; }
+.mh-bt-qty-input { width:2.4em!important; flex-shrink:0; height:100%!important; padding:0!important; border:none!important; border-left:1px solid #e0e0e0!important; border-right:1px solid #e0e0e0!important; border-radius:0!important; background:#fff!important; color:#000!important; font-size:13px!important; font-weight:600!important; text-align:center!important; -moz-appearance:textfield!important; -webkit-appearance:none!important; font-family:inherit; line-height:2em!important; appearance:none!important; }
+.mh-bt-widget input[type="number"].mh-bt-qty-input { color:#000!important; background:#fff!important; opacity:1!important; -webkit-text-fill-color:#000!important; min-height:auto!important; max-width:2.4em!important; box-shadow:none!important; font-size:13px!important; font-weight:600!important; margin:0!important; padding:0!important; border-radius:0!important; -webkit-appearance:none!important; -moz-appearance:textfield!important; appearance:none!important; }
+.mh-bt-qty-input::-webkit-inner-spin-button,.mh-bt-qty-input::-webkit-outer-spin-button { -webkit-appearance:none!important; display:none!important; margin:0!important; opacity:0!important; pointer-events:none!important; }
+.mh-bt-widget input[type="number"].mh-bt-qty-input::-webkit-inner-spin-button,.mh-bt-widget input[type="number"].mh-bt-qty-input::-webkit-outer-spin-button { -webkit-appearance:none!important; display:none!important; margin:0!important; }
+.mh-bt-qty-input:focus,.mh-bt-widget input[type="number"].mh-bt-qty-input:focus { outline:none!important; background:#fef8ee!important; color:#000!important; -webkit-text-fill-color:#000!important; box-shadow:none!important; }
+.mh-bt-qty-suffix { font-size:0.8em; color:#b09060; font-weight:500; }
+
+/* v2.7 #9: Qty-Pill Scale-Pop */
+@keyframes mhBtQtyPop { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+.mh-bt-product__qty-calc.mh-bt-qty-pop { animation:mhBtQtyPop .2s ease; }
+
+/* v2.7: Qty-Explain — human-readable calculation */
+.mh-bt-product__qty-explain { display:none; font-size:0.72em; color:#888; line-height:1.3; align-self:flex-start; }
+.mh-bt-product__qty-explain.mh-bt-qty-explain--visible { display:flex; align-items:center; gap:0.3em; }
+.mh-bt-product__qty-explain svg { flex-shrink:0; color:#bbb; }
+
+/* Badges */
+.mh-bt-badge { display:inline-block; font-size:0.65em; font-weight:500; padding:0.1em 0.4em; border-radius:8px; vertical-align:middle; }
+/* v2.9.3: Main product — same image size as accessories */
+.mh-bt-product--main .mh-bt-product__label { border-radius:0; }
+.mh-bt-product--main .mh-bt-product__image { width:46px; height:46px; }
+.mh-bt-product--main .mh-bt-product__image img { width:46px; height:46px; }
+
+/* Stock Indicator */
+.mh-bt-stock { display:inline-flex; align-items:center; gap:0.3em; font-size:0.75em; font-weight:500; margin-top:0.15em; align-self:flex-start; }
+.mh-bt-stock--in { color:#27ae60; }
+.mh-bt-stock--low { color:#e67e22; }
+.mh-bt-stock--production { color:#3498db; }
+.mh-bt-stock__dot { display:inline-block; width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.mh-bt-stock--in .mh-bt-stock__dot { background:#27ae60; }
+.mh-bt-stock--low .mh-bt-stock__dot { background:#e67e22; animation:mhBtPulse 1.5s ease-in-out infinite; }
+.mh-bt-stock--production .mh-bt-stock__dot { background:#3498db; animation:mhBtPulse 2s ease-in-out infinite; }
+@keyframes mhBtPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* Counter Badge — very subtle */
+.mh-bt-heading__count { display:inline-flex; align-items:center; justify-content:center; font-size:0.55em; font-weight:500; background:rgba(0,0,0,0.04); color:#aaa; padding:0.1em 0.45em; border-radius:8px; min-width:1.4em; text-align:center; transition:transform .2s ease; }
+.mh-bt-heading__count.mh-bt-pop { transform:scale(1.2); }
+
+/* Footer — v3.2.1: Quieter, simple border */
+.mh-bt-footer { margin-top:0.6em; padding:0.6em 0 0; border-top:1px solid #f0f0f0; position:relative; display:flex; flex-direction:column; gap:0.5em; background:transparent; border-radius:0; }
+.mh-bt-total { flex:1; display:flex; align-items:baseline; gap:0.4em; flex-wrap:wrap; }
+.mh-bt-total__label { font-weight:500; font-size:0.82em; color:#999; }
+
+/* Animated Price Counter — v3.2.1: calmer */
+.mh-bt-total__price { font-weight:600; font-size:1.1em; color:#2d2d2d; transition:color .6s ease; font-variant-numeric:tabular-nums; }
+.mh-bt-total__price.mh-bt-price--down { color:#5cb85c; }
+.mh-bt-total__original { font-size:0.82em; color:#aaa; text-decoration:line-through; transition:opacity .25s ease; }
+
+/* v3.2.1: Savings Pill — quieter */
+.mh-bt-savings-pill { display:none; align-items:center; gap:0.25em; font-size:0.72em; font-weight:500; color:#5cb85c; background:rgba(92,184,92,0.06); padding:0.2em 0.55em; border-radius:4px; white-space:nowrap; }
+.mh-bt-savings-pill.mh-bt-savings-pill--visible { display:inline-flex; }
+.mh-bt-savings-pill svg { flex-shrink:0; color:#5cb85c; }
+
+/* CTA Button — v3.2.1: calmer, no uppercase, no glow, no shimmer */
+.mh-bt-add-all { display:inline-flex; align-items:center; gap:0.5em; background:#f7af4a!important; color:#fff!important; border:none!important; padding:0.55em 1.1em!important; font-size:0.82em!important; font-weight:500!important; border-radius:6px!important; cursor:pointer; transition:background .2s ease,transform .15s ease; white-space:nowrap; width:100%; justify-content:center; box-sizing:border-box; position:relative; overflow:hidden; letter-spacing:0; text-transform:none; }
+.mh-bt-add-all--bundle-glow { /* no glow animation */ }
+.mh-bt-add-all::after { display:none; /* no shimmer */ }
+.mh-bt-add-all:hover { background:#e59a2f!important; }
+.mh-bt-add-all:active { transform:scale(0.98); }
+.mh-bt-add-all:disabled { opacity:0.6; cursor:not-allowed; }
+.mh-bt-add-all:disabled::after { display:none; }
+.mh-bt-add-all svg { flex-shrink:0; transition:transform .2s ease; }
+.mh-bt-add-all--success { background:#27ae60!important; }
+.mh-bt-add-all--success:hover { background:#219a52!important; }
+.mh-bt-add-all--success::after { display:none; }
+.mh-bt-add-all__icon-cart,.mh-bt-add-all__icon-check,.mh-bt-add-all__text { pointer-events:none; position:relative; z-index:1; }
+
+/* CTA Focus Ring */
+.mh-bt-add-all:focus-visible { outline:2px solid #ddd; outline-offset:2px; }
+
+/* Notice */
+.mh-bt-notice { width:100%; padding:0.75em 1em; border-radius:6px; font-size:0.9em; font-weight:500; }
+.mh-bt-notice--success { background:#d4edda; color:#155724; border:1px solid #c3e6cb; }
+.mh-bt-notice--success a { color:#155724; font-weight:700; text-decoration:underline; }
+.mh-bt-notice--error { background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; }
+
+/* Responsive */
+@media(max-width:768px) {
+    .mh-bt-widget { padding:1em 0; }
+    .mh-bt-product__image,.mh-bt-product__image img { width:40px!important; height:40px!important; }
+    .mh-bt-product__label { padding:0.5em 0.3em; gap:0.5em; }
+    .mh-bt-heading { font-size:0.95em; }
+    .mh-bt-plus-separator__icon { width:20px; height:20px; font-size:12px; }
+    .mh-bt-qty-sync-hint { font-size:0.65em; }
+    /* v3.2.4: Sticky footer within widget on mobile */
+    .mh-bt-footer { flex-direction:column; align-items:stretch; position:sticky; bottom:0; z-index:100; background:#fff; margin:0; padding:0.6em 0 0; border-top:1px solid #f0f0f0; box-shadow:0 -2px 8px rgba(0,0,0,0.05); border-radius:0; width:100%; }
+    .mh-bt-total { flex-direction:row; align-items:baseline; gap:0.4em; width:100%; flex-wrap:wrap; }
+    .mh-bt-total__label { font-size:0.8em; }
+    .mh-bt-total__price { font-size:1.2em; }
+    .mh-bt-total__original { font-size:0.8em; }
+    .mh-bt-savings-pill { font-size:0.7em; white-space:nowrap; }
+    .mh-bt-add-all { text-align:center; justify-content:center; font-size:0.9em!important; padding:0.7em 1em!important; border-radius:8px!important; }
+}
+@media(max-width:400px) {
+    .mh-bt-footer { padding:0.5em 0 0; }
+}
+
+/* Reduced Motion */
+@media(prefers-reduced-motion:reduce) {
+    .mh-bt-product,.mh-bt-plus-separator { animation:none; opacity:1; }
+    .mh-bt-checkbox:checked + .mh-bt-checkbox-custom { animation:none; }
+    .mh-bt-stock--low .mh-bt-stock__dot { animation:none; }
+    .mh-bt-stock--production .mh-bt-stock__dot { animation:none; }
+    .mh-bt-product__qty-calc.mh-bt-qty-pop { animation:none; }
+    .mh-bt-bundle-progress__fill { transition:none; }
+    .mh-bt-bundle-progress__milestone.mh-bt-bundle-progress--reached { animation:none; }
+    .mh-bt-preview-tooltip { transition:none; }
+    .mh-bt-product.mh-bt-qty-highlight .mh-bt-product__label { animation:none; }
+    .mh-bt-product__label:focus-within { animation:none; }
+}
+
+/* ==========================================================================
+   v3.2: "Im Lieferumfang enthalten" — Included Products Widget
+   Matches BT widget design DNA: same border, spacing, typography, row layout
+   ========================================================================== */
+
+@keyframes mhIpSlideIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* Widget container — matches .mh-bt-widget full-width */
+.mh-ip-widget { margin:1.5em 0; padding:1em 0; border:none; border-radius:0; background:transparent; width:100%; box-sizing:border-box; box-shadow:none; border-top:1px solid #eee; overflow:hidden; }
+
+/* Heading — matches .mh-bt-heading exactly */
+.mh-ip-heading { font-size:1.05em; margin:0 0 0.3em; padding-bottom:0; border-bottom:none; display:flex; align-items:center; gap:0.4em; flex-wrap:wrap; font-weight:600; }
+.mh-ip-heading__count { font-size:0.72em; font-weight:400; color:#999; }
+
+/* Product list */
+.mh-ip-products { display:flex; flex-direction:column; gap:0; min-width:0; overflow:hidden; }
+
+/* Single product row — matches .mh-bt-product__label layout */
+.mh-ip-product { display:flex; align-items:center; gap:0.6em; padding:0.5em 0.35em; border:none; border-radius:0; border-bottom:1px solid #f5f5f5; background:transparent; opacity:0; animation:mhIpSlideIn .4s ease forwards; min-width:0; }
+.mh-ip-product:nth-child(1) { animation-delay:.05s; }
+.mh-ip-product:nth-child(2) { animation-delay:.12s; }
+.mh-ip-product:nth-child(3) { animation-delay:.19s; }
+.mh-ip-product:nth-child(4) { animation-delay:.26s; }
+.mh-ip-product:nth-child(5) { animation-delay:.33s; }
+.mh-ip-product:nth-child(6) { animation-delay:.40s; }
+.mh-ip-product:last-child { border-bottom:none; }
+
+/* Checkmark circle — left side, matches BT checkbox position */
+.mh-ip-product__check { flex-shrink:0; width:18px; height:18px; border-radius:50%; background:#5cb85c; display:flex; align-items:center; justify-content:center; }
+
+/* Product image — matches .mh-bt-product__image */
+.mh-ip-product__image { flex-shrink:0; width:44px; height:44px; border-radius:6px; overflow:hidden; background:#fafafa; }
+.mh-ip-product__image img { width:100%; height:100%; object-fit:cover; display:block; }
+.mh-ip-product__image a { display:block; text-decoration:none; transition:opacity .2s ease; }
+.mh-ip-product__image a:hover { opacity:0.8; }
+
+/* Product info — matches .mh-bt-product__info */
+.mh-ip-product__info { flex:1; min-width:0; display:flex; flex-direction:column; gap:0.1em; }
+.mh-ip-product__name { font-size:0.82em; font-weight:500; line-height:1.3; word-break:break-word; }
+.mh-ip-product__name a { color:inherit; text-decoration:none; }
+.mh-ip-product__name a:hover { text-decoration:underline; }
+
+/* Bottom line: price · label · description — inline */
+.mh-ip-product__bottom { display:flex; align-items:baseline; gap:0.3em; flex-wrap:wrap; font-size:0.7em; color:#999; line-height:1.3; }
+.mh-ip-product__price { color:#999; display:inline-flex; align-items:baseline; gap:4px; flex-wrap:wrap; }
+.mh-ip-product__price * { margin:0; padding:0; }
+.mh-ip-product__price del { color:#aaa; font-size:0.88em; font-weight:400; text-decoration:line-through; text-decoration-color:#ccc; }
+.mh-ip-product__price del .woocommerce-Price-amount { color:#aaa; }
+.mh-ip-product__price ins { text-decoration:none; font-weight:700; color:#555; font-size:1.05em; }
+.mh-ip-product__sep { color:#ddd; }
+.mh-ip-product__label { color:#5cb85c; font-weight:500; }
+.mh-ip-product__desc { color:#bbb; }
+
+/* Collapsible — uses max-height so hidden items still contribute to width calculation */
+.mh-ip-collapsible { display:flex; flex-direction:column; gap:0; min-width:0; overflow:hidden; max-height:2000px; transition:max-height .35s ease, opacity .25s ease; opacity:1; }
+.mh-ip-collapsible--hidden { max-height:0 !important; opacity:0; transition:max-height .25s ease, opacity .15s ease; }
+
+/* Show-more toggle — matches .mh-bt-show-more */
+.mh-ip-show-more { display:flex; align-items:center; justify-content:center; gap:0.35em; background:rgba(0,0,0,0.025); border:none; border-radius:20px; padding:0.45em 1.2em; margin:0.6em auto 0.2em; font-size:0.75em; color:#999; cursor:pointer; transition:all .2s ease; width:auto; }
+.mh-ip-show-more:hover { background:rgba(92,184,92,0.08); color:#5cb85c; }
+.mh-ip-show-more__icon { transition:transform .25s ease; width:12px; height:12px; }
+.mh-ip-show-more--open .mh-ip-show-more__icon { transform:rotate(180deg); }
+
+/* Total value — simple text footer, no background */
+.mh-ip-total { display:flex; align-items:center; justify-content:space-between; padding:0.5em 0.35em 0; margin-top:0.2em; border-top:1px solid #f5f5f5; }
+.mh-ip-total__label { font-size:0.72em; color:#999; }
+.mh-ip-total__price { font-size:0.82em; font-weight:600; color:#5cb85c; }
+
+/* Mobile */
+@media(max-width:480px) {
+    .mh-ip-product__image { width:38px; height:38px; }
+}
+
+/* Reduced Motion */
+@media(prefers-reduced-motion:reduce) {
+    .mh-ip-product { animation:none; opacity:1; }
+}

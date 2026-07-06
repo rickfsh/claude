@@ -1,0 +1,87 @@
+/* v3.1: Bundle display in cart/checkout */
+
+/* Bundle badge + savings wrapper */
+.mh-bt-cart-bundle-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+}
+
+/* Badge pill — tag icon + "-5% Bundle-Rabatt" */
+.mh-bt-cart-bundle-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0faf4;
+    color: #1a7a42;
+    font-size: 0.82em;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(39,174,96,0.18);
+    line-height: 1.4;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    width: fit-content;
+}
+.mh-bt-cart-bundle-badge svg {
+    flex-shrink: 0;
+    color: #27ae60;
+}
+
+/* Per-item savings text below badge */
+.mh-bt-cart-bundle-savings {
+    font-size: 0.78em;
+    color: #1a7a42;
+    font-weight: 500;
+    padding-left: 2px;
+}
+.mh-bt-cart-bundle-savings .woocommerce-Price-amount {
+    font-weight: 700;
+}
+
+/* Bundle item grouping — left accent border */
+.mh-bt-cart-bundle-item {
+    border-left: 3px solid #27ae60 !important;
+}
+.mh-bt-cart-bundle-item td:first-child {
+    padding-left: 12px !important;
+}
+
+/* Strikethrough original total on fee row */
+.mh-bt-fee-original {
+    text-decoration: line-through;
+    color: #999 !important;
+    font-weight: 400 !important;
+    font-size: 0.9em;
+    margin-right: 6px;
+}
+
+/* Fee row label styling */
+tr.fee .mh-bt-fee-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #1a7a42;
+    font-weight: 600;
+}
+tr.fee .mh-bt-fee-label .mh-bt-fee-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: rgba(39,174,96,0.1);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+tr.fee .mh-bt-fee-label .mh-bt-fee-icon svg {
+    color: #27ae60;
+}
+
+/* Green color for negative fee amount */
+.mh-bt-fee-amount {
+    color: #1a7a42 !important;
+    font-weight: 600 !important;
+}
