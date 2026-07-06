@@ -37,6 +37,12 @@ Text-Graus: `#444`/`#555` (Body), `#636360` (muted), `#666`/`#999`, `#9a9a94` (d
 - **Lieferrückstand/Warnung:** Amber `#d4a017` / `#8a6d2b`, Tint `#fff5e0`
 - **Rabatt-Pill:** Grün `#3B6D11` auf `#27500A`-Nuancen (Spielhaus-Preisersparnis)
 
+### Markenfremde Farben (nicht wiederverwenden)
+mh-bought-together nutzt Bootstrap-Blau `#3498db`/`#2980b9` (Optional-Box, Stock-Status)
+und Bootstrap-Grün `#5cb85c` — diese gehören **nicht** zur Palette. Für „sekundär/optional"
+und Semantik künftig die dokumentierten Marken-Farben verwenden (Navy/Charcoal-Töne bzw.
+die Erfolgs-/Warn-Farben oben).
+
 ### Admin-Bereich
 Admin-CSS weicht bewusst von der Marke ab: native WordPress-Admin-Graus
 (`#c3c4c7`, `#787c82`, `#f0f0f1`, `#50575e`) — nur der Orange-Akzent bleibt für interaktive Highlights.
@@ -78,6 +84,9 @@ Admin-CSS weicht bewusst von der Marke ab: native WordPress-Admin-Graus
 - **„Inklusive"-Cards:** `border-style: dashed`
 - **Card-Bauweise:** `#fff` + `1–2px solid var(--_border)` + Radius + `padding: 12–24px`
 - **Hover-Bewegung:** `translateY(-2px / -4px)` auf Cards, `translateX(5px)` auf Listenzeilen, `scale(1.04)` auf Card-Bildern
+- **Legitime Alternative — „Blend-in"-Widget:** bewusst randlos, transparent, full-width
+  (kein Card-Container), wenn das Widget in die Produktseite einfließen soll statt als
+  Box zu wirken (mh-bought-together ab v3.2.4: `.mh-bt-widget { border:none; background:transparent }`)
 
 ## 5. Spacing & Breakpoints
 

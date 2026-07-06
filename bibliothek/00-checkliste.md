@@ -14,8 +14,10 @@ Ziel: keine Iteration für Dinge, die schon gelöst sind.
 ## 1. Setup & Namensgebung
 
 - [ ] Plugin-Name `MH <Name>`, Author `Mega-Holz`, Slug `mh-<name>`.
-- [ ] **Neues, eindeutiges Kürzel** gewählt (nicht: MHSG, MHBS, MH_STV, MH_SH, MH_STL, MH_KONFIG)
-      und konsequent für Konstanten, Klassen, CSS, Handles, Options, AJAX-Actions verwendet.
+- [ ] **Neues, eindeutiges Kürzel** gewählt (nicht: MHSG, MHBS, MH_STV, MH_SH, MH_STL,
+      MH_KONFIG, MH_BT) und konsequent für Konstanten, Klassen, CSS, Handles, Options,
+      AJAX-Actions verwendet. **Ein** Kürzel pro Plugin — Sub-Features bekommen ein
+      Suffix, kein Zweit-Prefix (Anti-Pattern `mh_ip_*` in mh-bought-together).
 - [ ] `ABSPATH`-Guard, `*_VERSION`/`*_PATH`/`*_URL`-Konstanten, finale Klasse mit `init()`.
 - [ ] Changelog-Block im Header angelegt.
 
@@ -33,11 +35,18 @@ Ziel: keine Iteration für Dinge, die schon gelöst sind.
 ## 3. Architektur
 
 - [ ] Asset-Strategie bewusst gewählt (`02-architektur.md` §4) — Oxygen/WP-Rocket-sicher
-      (`03-umgebung.md`).
+      (`03-umgebung.md`). **Eine Quelle pro Asset**: nie Datei- UND Inline-Kopie parallel
+      pflegen — Inline-Fallbacks immer aus der Datei generieren (Drift-Falle
+      mh-bought-together, `05-verbesserungen.md`).
 - [ ] Shortcode mit `shortcode_atts` + Produkt-Kontext-Auflösung + Debug-HTML-Kommentar
       bei fehlender ID.
 - [ ] PHP→JS über `wp_localize_script` (geprefixtes Objekt, `ajaxUrl` + Nonce).
 - [ ] AJAX-Handler mit `check_ajax_referer`; schreibende Aktionen rate-limitiert.
+      Gilt **auch für nopriv-Tracking**: Nonce + Input-Validierung + Rate-Limit +
+      gedeckelte Keys (sonst unbegrenztes Options-Wachstum, `05-verbesserungen.md` #3).
+- [ ] Datei-Uploads: echten Typ serverseitig prüfen (`wp_check_filetype_and_ext`),
+      Endungs-Whitelist, erst validieren, dann weiterreichen (`05-verbesserungen.md` #1).
+- [ ] `uninstall.php` räumt **alle** Options, Transients und Meta-Keys des Plugins.
 - [ ] Teure Abfragen in Transients, Invalidierung an `woocommerce_update_product`/`save_post_product`.
 - [ ] Settings über Settings API mit `sanitize_callback` + Capability-Check;
       Menüplatzierung nach Produktfläche.
@@ -56,7 +65,12 @@ Ziel: keine Iteration für Dinge, die schon gelöst sind.
 
 - [ ] Performance-Checkliste durchgegangen (`features/performance.md`).
 - [ ] A11y: Fokus-Ring (`outline: 2px solid var(--_a)`), `role="dialog"`/`aria-modal`
-      bei Overlays, Tastatur-Navigation, Fokus-Restore.
+      bei Overlays, Tastatur-Navigation, Fokus-Restore — **und echter Focus-Trap**
+      (Tab/Shift-Tab zyklisch im Modal halten; fehlt bislang in allen Lightboxen,
+      `05-verbesserungen.md` #5).
+- [ ] Kontrast: kleiner weißer Text auf Akzent-Orange verfehlt WCAG AA (~1.9:1) —
+      auf Akzent-Flächen dunklen Text oder dunkleren Akzent-Ton verwenden
+      (`05-verbesserungen.md` #6).
 - [ ] Umgebungs-Checkliste durchgegangen (`03-umgebung.md`).
 - [ ] Mobil getestet gedacht: Bottom-Sheets statt Popups, Sticky-CTA unten,
       Filterleisten scrollbar.

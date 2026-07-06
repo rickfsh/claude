@@ -15,6 +15,9 @@ Erprobt in allen 5 Plugins — bei jedem neuen Plugin durchgehen.
   (`reference/mh-shop-galerie/mh-shop-galerie.php`, `preload_hero`).
 - Schwere Fremd-Scripts (z.B. BabylonJS) aus dem Markup strippen und **erst bei Klick**
   laden (`reference/mh-lazy-konfigurator/mh-lazy-konfigurator.php:131-240`).
+- **Widget-Lazy-Init** unterhalb des Folds: IntersectionObserver mit `rootMargin: 200px`,
+  Init erst bei Annäherung (`reference/mh-bought-together/assets/js/mh-bt-frontend.js:420`,
+  `mhBtLazyInit`).
 
 ## Rendering & Jank-Vermeidung
 
@@ -34,7 +37,9 @@ Erprobt in allen 5 Plugins — bei jedem neuen Plugin durchgehen.
 
 - **Debounce/Batching**: Analytics-Queue alle 2s + `navigator.sendBeacon` auf `pagehide`
   (`spielhaus-konfigurator.js:199-230`); debounced AJAX-Refresh
-  (`refreshBoughtTogether`, `spielturm-vergleich.js:1777`).
+  (`refreshBoughtTogether`, `spielturm-vergleich.js:1777`); serverseitig gebufferte
+  Impressions (Transient 120s, Flush bei 50 bzw. `shutdown`, 120-Tage-Pruning —
+  `reference/mh-bought-together/mh-bought-together.php:2657-2730`).
 - **Sub-Pixel-Akkumulator + EMA-Glättung** für Drag-Physik (`spielturm-360.js:372-409`).
 - **Transient-Caching serverseitig** mit Invalidierung an Produkt-Hooks
   (siehe `02-architektur.md` §6); Rate-Limiting für schreibende AJAX-Calls.

@@ -42,7 +42,11 @@ Ein Kürzel pro Plugin, konsequent für **alles**: Konstanten (`MHXYZ_`), Klasse
 Funktionen (`mh_xyz_*`), CSS-Klassen (`.mhxyz-*`), Enqueue-Handles, Option-Namen,
 AJAX-Actions, Localize-Objekte. Bestehende Kürzel (nicht wiederverwenden):
 `MHSG` (Shop-Galerie), `MHBS` (Birthday), `MH_STV` (Spielturm), `MH_SH` (Spielhaus),
-`MH_STL` (Shop-the-Look/kp-gallery), `MH_KONFIG` (Lazy-Konfigurator).
+`MH_STL` (Shop-the-Look/kp-gallery), `MH_KONFIG` (Lazy-Konfigurator), `MH_BT` (Bought-Together).
+
+**Anti-Pattern (aus mh-bought-together gelernt):** kein Zweit-Kürzel im selben Plugin —
+das Lieferumfang-Widget nutzt dort `mh_ip_*` neben `mh_bt_*`. Ein Plugin = ein Kürzel;
+Sub-Features bekommen ein Suffix (`mh_bt_ip_*`), kein eigenes Prefix.
 
 ## 3. Shortcodes
 
@@ -113,6 +117,13 @@ Data-Attribut, im JS mit `try/catch` + `JSON.parse(dataEl.textContent)` lesen.
   und Upload: `reference/mh-kp-gallery/includes/class-rest-api.php`.
 - **AJAX-Add-to-Cart** endet immer mit WooCommerce-Fragment-Event:
   `jQuery(document.body).trigger('added_to_cart', …)` (einzige erlaubte jQuery-Nutzung im Frontend).
+- **Bundle-Rabatt = negative Fee, serverseitig validiert** — Client-Preise sind nur Vorschau.
+  Cart-Item-Meta braucht den `woocommerce_get_cart_item_from_session`-Filter, sonst geht sie
+  beim Reload verloren (`reference/mh-bought-together/mh-bought-together.php:2306`, „CRITICAL").
+  Details: `features/cross-sell-warenkorb.md`.
+- **Auch nopriv-Tracking-Endpoints** brauchen Nonce + Input-Validierung + Rate-Limit —
+  `mh_bt_track` (ohne alles drei) ist das dokumentierte Anti-Pattern
+  (`05-verbesserungen.md` #3).
 
 ## 6. Caching & Daten
 
@@ -124,6 +135,10 @@ Data-Attribut, im JS mit `try/catch` + `JSON.parse(dataEl.textContent)` lesen.
 - **Eigene DB-Tabelle** nur wenn nötig (Analytics): `dbDelta` bei Aktivierung, DB-Version
   als Option, atomare `INSERT … ON DUPLICATE KEY UPDATE`
   (`reference/mh-spielturm-vergleich/includes/class-analytics.php`).
+  **Leichte Alternative ohne Tabelle:** Events in Transient buffern (Flush bei N Stück
+  bzw. auf `shutdown` in eine Option, `autoload=false`, mit Pruning) —
+  `reference/mh-bought-together/mh-bought-together.php:2657-2730`. Dann aber Keys
+  deckeln/GC'en, sonst wächst die Option unbegrenzt.
 - **CPT + Taxonomie** mit `show_in_rest => true`, Aktivierung flusht Rewrite-Rules
   (`reference/mh-kp-gallery/includes/class-cpt.php`).
 - **Migrationen** einmalig, gated auf Versions-Option (`mh_stv_migrated_570`) auf `admin_init`

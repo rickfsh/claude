@@ -25,6 +25,8 @@ Layout-Messung nötig ist (Momentum, FLIP, Count-up). Konkrete Token-Werte
 - **Morph-Open** der Lightbox via `transform-origin` auf die Quell-Card
 - **Preis-Count-up** (`animatePrice`, `reference/mh-spielturm-vergleich/public/js/spielturm-vergleich.js:625`)
 - **Skeleton-Pulse/Shimmer** während Ladezuständen (Keyframes `mhStvPulse`/`mhShimmer`-Familie)
+- **Bild-Preview-Tooltip** bei Hover: fixed-position, an `<body>` gehängt (Achtung Token-Scope!)
+  — `reference/mh-bought-together/assets/js/mh-bt-frontend.js` (Hover-Tooltip, ~`:1710`)
 - **Gestaffeltes Fade-Up** mit inkrementellem `animation-delay` auf `:nth-child`
   (spielturm `.mh-stv-right > *`, kp `.mh-grid-lb-info > *`)
 

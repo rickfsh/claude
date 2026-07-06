@@ -27,7 +27,7 @@ aktive Codebasis, sondern:
 3. Flache Akzent-Buttons (Radius 8–10px, Press-Feedback `scale(.96)`), weiße Cards
    (Radius 12–14px, Hover-Lift), Pills `999px`, `is-*` State-Klassen.
 4. **Prefix-Disziplin**: ein `MH<Kürzel>`-Prefix pro Plugin für alles (vergeben:
-   MHSG, MHBS, MH_STV, MH_SH, MH_STL, MH_KONFIG).
+   MHSG, MHBS, MH_STV, MH_SH, MH_STL, MH_KONFIG, MH_BT).
 5. `ABSPATH`-Guard, `*_VERSION`-Konstante = Header-Version, finale Klassen mit `init()`,
    Changelog im Header-Doc-Block.
 6. **Oxygen/WP-Rocket-sicheres Asset-Loading**: inline-on-shortcode oder

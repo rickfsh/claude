@@ -26,6 +26,7 @@ Bibliothek mit allem, was in 5 bisherigen Plugins bereits gelöst und gehärtet 
    - 360°-Viewer → `bibliothek/features/360-viewer.md`
    - Grid/Masonry/Filter/Load-More → `bibliothek/features/grid-masonry.md`
    - Konfigurator/Preislogik/URL-Sharing → `bibliothek/features/konfigurator.md`
+   - Cross-Sell/Bundles/Warenkorb-Rabatt → `bibliothek/features/cross-sell-warenkorb.md`
    - Vergleichstabelle → `bibliothek/features/vergleichstabelle.md`
    - Hover/Animationen → `bibliothek/features/hover-animationen.md`
    - Touch/Mobile → `bibliothek/features/mobile-gesten.md`
@@ -48,6 +49,11 @@ Bibliothek mit allem, was in 5 bisherigen Plugins bereits gelöst und gehärtet 
 6. **Fork-Kandidaten prüfen:** `bibliothek/04-plugin-steckbriefe.md` — oft ist ein
    bestehendes Plugin die beste Startbasis (so entstand mh-shop-galerie als Port der
    Spielhaus-Galerie).
+
+7. **Verbindliche Regeln & bekannte Schwächen:** `bibliothek/05-verbesserungen.md` —
+   der Abschnitt „Ab sofort verbindlich" gilt für jedes neue Plugin (Focus-Trap,
+   Kontrast, Rate-Limits, eine Asset-Quelle, vollständiges uninstall); beim Anfassen
+   von Bestands-Code die dort gelisteten Funde mitdenken.
 
 ## Nach getaner Arbeit
 

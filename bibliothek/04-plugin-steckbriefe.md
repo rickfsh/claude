@@ -65,3 +65,17 @@ und wofür es als Vorlage taugt.
 - **Bidirektionaler Hover-Sync** Pin ↔ Produktzeile ↔ Thumbnail (`:707-769`, `:81-115`).
 - **Mobile Bottom-Sheet** mit Swipe-to-dismiss (`:545-684`), scrollbar-sprungfreier Scroll-Lock (`:10-25`).
 - Crossfade-Bildwechsel mit Ghost-Clone (`:961-1032`), Morph-Open-Lightbox.
+
+---
+
+## mh-bought-together („MH Häufig zusammen gekauft") — v3.2.6
+**Zweck:** WooCommerce Cross-Sell-Widget „Wird oft zusammen gekauft" mit Mengenformel (`ceil(Hauptmenge × Multiplikator + Offset)`), Bundle-Rabatt und eigenem Analytics-Dashboard; plus rein informatives „Im Lieferumfang enthalten"-Widget (grünes Checklist-Design).
+**Struktur:** Faktisch **monolithisch** — eine prozedurale 3072-Zeilen-Hauptdatei (keine Klassen, kein `includes/`), `assets/css|js`, `uninstall.php`, README mit Changelog. Zweit-Kürzel `mh_ip_*` fürs Lieferumfang-Widget (Anti-Pattern, siehe `02-architektur.md` §2).
+**Shortcodes:** `[mh_bought_together product_id="…"]`, `[mh_included_products product_id="…"]` (Achtung: Attribut heißt `product_id`, nicht `id`).
+**Highlights / als Vorlage für:**
+- **Bundle-Rabatt als negative WC-Fee** mit serverseitiger Neuvalidierung gegen Manipulation und `woocommerce_get_cart_item_from_session`-Filter, damit die Cart-Item-Meta einen Reload überlebt (`mh-bought-together.php:2306`, Kommentar „CRITICAL").
+- **Theme-proofe Cart-Badge-Injection** (`:2422-2593`): findet Produktzeilen per Slug-Scan, unterstützt Classic-Cart **und** WC-Blocks, re-injiziert auf `updated_cart_totals`.
+- **DB-tabellenlose Analytics**: Impressions in Transient gebuffert (120s TTL), Flush bei 50 Stück bzw. auf `shutdown` in Option, 120-Tage-Pruning, Legacy-Migration (`:2657-2730`); Stats-Dashboard mit **HPOS-Fallback**-Query (`:2780`).
+- **Mengenformel-Engine + injizierte Qty-Stepper** mit Live-Sync zum WC-Mengenfeld; animierter Preis-Counter (rAF + Cubic-Easing), Zwei-Stufen-Grün-Animation bei Rabatt, Milestone-Progressbar.
+- **Integrationsvertrag für Fremd-Plugins**: `window.mhBtInit` / `window.mhBtReinit` (`assets/js/mh-bt-frontend.js:415`) — genau darüber bettet mh-spielturm-vergleich das Widget live ein (`mh_stv_refresh_bt` → Re-Render → `mhBtReinit()`).
+**Anmerkungen / Makel (siehe `05-verbesserungen.md`):** jQuery statt Vanilla ES5; **CSS/JS existieren doppelt** (Datei + veralteter Inline-Fallback in `mh_bt_get_frontend_css()`/`mh_bt_print_footer_script` — gedriftet, Inline-JS exponiert `mhBtReinit` NICHT); Tracking-Endpoint `mh_bt_track` ohne Nonce; `uninstall.php` unvollständig (lässt `mh_bt_impressions`, `mh_bt_deselections` u.a. zurück); kein Open Sans, kein `is-*`, keine CSS-Variablen, markenfremdes Blau `#3498db`.
