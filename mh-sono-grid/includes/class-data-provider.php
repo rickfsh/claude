@@ -11,8 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *  - Kategorie: Basis-Kategorie (Default 'sono'); Tore zusätzlich in Unterkategorie.
  *  - Attribute: pa_modell (Gruppierschlüssel), pa_hoehe, pa_oberflaeche.
  *  - Fallback: Höhe/Oberfläche werden notfalls aus dem Produkttitel geparst;
- *    das Modell wird NIE geraten — ohne Modell-Attribut wird das Produkt als
- *    Einzel-Karte in der Sektion „Weitere Modelle" gezeigt und im Admin gemeldet.
+ *    das Modell aus dem GROSS geschriebenen Wort im Titel (Namenskonvention).
+ *    Greift kein Fallback, wird das Produkt als Einzel-Karte in der Sektion
+ *    „Weitere Modelle" gezeigt und im Admin gemeldet.
  */
 final class MH_SONO_Data_Provider {
 
@@ -192,8 +193,13 @@ final class MH_SONO_Data_Provider {
 
 		$missing = array();
 
-		/* Modell — nur aus dem Attribut, nie geraten. */
+		/* Modell — Attribut, sonst das GROSS geschriebene Wort im Titel
+		   (Namenskonvention: Modellname steht immer in Caps, z. B.
+		   "… 180 x 120 cm ALBA - Anthrazit"). */
 		$model = self::first_term( $pid, $map['modell'] );
+		if ( ! $model ) {
+			$model = self::parse_model_from_title( $title );
+		}
 		if ( ! $model ) {
 			$missing[] = 'modell';
 		}
@@ -257,6 +263,46 @@ final class MH_SONO_Data_Provider {
 			'name'       => $terms[0]->name,
 			'slug'       => $terms[0]->slug,
 			'menu_order' => (int) get_term_meta( $terms[0]->term_id, 'order', true ),
+		);
+	}
+
+	/**
+	 * Modell aus dem Produkttitel parsen: das letzte Wort, das komplett aus
+	 * Großbuchstaben besteht (nur Buchstaben, ≥ 3 Zeichen) und nicht auf der
+	 * Stoppliste steht. "MEGA FLEX SONO120 … ALBA - Anthrazit" → ALBA
+	 * ("SONO120" fällt wegen der Ziffern raus, MEGA/FLEX per Stoppliste).
+	 * Liefert dieselbe Struktur wie first_term(), damit Attribut- und
+	 * Titel-Produkte auf denselben Gruppierschlüssel (Slug) fusionieren.
+	 */
+	private static function parse_model_from_title( $title ) {
+		$stopwords = apply_filters( 'mh_sono_model_stopwords', array(
+			'MEGA', 'FLEX', 'SONO', 'RAL', 'WPC', 'ANTHRAZIT', 'SILBER', 'LAERCHE', 'LÄRCHE',
+		) );
+
+		if ( ! preg_match_all( '/(?<![\p{L}\p{N}])([A-ZÄÖÜ]{3,})(?![\p{L}\p{N}])/u', $title, $m ) ) {
+			return null;
+		}
+
+		$candidates = array();
+		foreach ( $m[1] as $token ) {
+			if ( ! in_array( $token, $stopwords, true ) ) {
+				$candidates[] = $token;
+			}
+		}
+		if ( empty( $candidates ) ) {
+			return null;
+		}
+
+		/* Das Modell steht am Titelende (vor dem Oberflächen-Suffix). */
+		$raw  = end( $candidates );
+		$name = function_exists( 'mb_convert_case' )
+			? mb_convert_case( mb_strtolower( $raw ), MB_CASE_TITLE )
+			: ucfirst( strtolower( $raw ) );
+
+		return array(
+			'name'       => $name,
+			'slug'       => sanitize_title( $raw ),
+			'menu_order' => 0,
 		);
 	}
 

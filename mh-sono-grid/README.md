@@ -28,8 +28,17 @@ Weitere Grid-Attribute: `show_filters="0"` (Filterleiste aus), `button_text="…
 
 Fehlt etwas, erscheint das Produkt trotzdem (als Einzel-Karte unter „Weitere
 Modelle") und im WP-Admin ein Hinweis mit Edit-Links, was nachzupflegen ist.
-Höhe und Oberfläche werden notfalls aus dem Produkttitel erkannt („… 180 cm …
-Anthrazit"); das **Modell wird nie geraten** — ohne Modell-Attribut keine Gruppierung.
+Alle drei Angaben werden notfalls aus dem Produkttitel erkannt:
+
+- **Höhe:** „… 180 cm …"
+- **Oberfläche:** Keyword im Titel (Anthrazit / Silber / Lärche)
+- **Modell (seit 1.1.0):** das letzte komplett **GROSS** geschriebene Wort im Titel
+  (Namenskonvention, z. B. „… 180 x 120 cm **ALBA** - Anthrazit" → Modell *Alba*).
+  `MEGA`/`FLEX`/`SONO120` u. ä. werden über Stoppliste + „nur Buchstaben"-Regel
+  ignoriert (Filter `mh_sono_model_stopwords`).
+
+Das Attribut `pa_modell` bleibt die sauberste Quelle und **gewinnt immer**, wenn
+es gepflegt ist — der Titel-Parse greift nur als Fallback.
 
 **Neue Modelle, Höhen, Oberflächen und Tor-Kategorien brauchen keine Code-Änderung.**
 Eine neue Oberfläche bekommt automatisch einen (grauen) Punkt; für eine eigene
@@ -59,7 +68,7 @@ Farbe eine CSS-Regel `.mhsono-finish--<slug>` ergänzen.
   Immer bereinigen* eintragen (sonst erscheinen sie erst nach dem nächsten Purge).
 - **Assets:** Registrierung auf `wp_enqueue_scripts`, Enqueue erst im Shortcode
   (Oxygen-sicher, mit `wp_footer`-Spätdruck-Fallback), Content-Hash-Versionierung.
-- **Filter-Hooks:** `mh_sono_attr_map`, `mh_sono_finish_order`, `mh_sono_finish_keywords`,
+- **Filter-Hooks:** `mh_sono_attr_map`, `mh_sono_model_stopwords`, `mh_sono_finish_order`, `mh_sono_finish_keywords`,
   `mh_sono_height_titles`, `mh_sono_height_section_types`, `mh_sono_default_type_label`,
   `mh_sono_notice_category`.
 
