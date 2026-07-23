@@ -1,5 +1,5 @@
 /* ============================================================
-   MH SONO Grid v1.0.0 — Frontend
+   MH SONO Grid v1.2.0 — Frontend
    Namespace .mhsono — visuell abgestimmt auf die SONO-Landingpage
    (.sono-*), aber vollständig eigenständig.
    ============================================================ */
@@ -25,86 +25,71 @@
 .mhsono, .mhsono *, .mhsono *::before, .mhsono *::after { box-sizing: border-box; }
 .mhsono img { max-width: 100%; display: block; }
 
-/* ---------- Filterleiste ---------- */
+/* ---------- Filter-Panel (Variante B) ----------
+   Hellgraues Panel wie das Abstandhalter-Kapitel der Landingpage:
+   Gruppen nebeneinander mit Label, weiße Chips mit Schatten,
+   aktiv = orangener Inset-Ring. */
 .mhsono-filters {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: #fff;
-  padding: 10px 0 14px;
+  background: var(--_bg);
+  border-radius: 14px;
+  padding: 20px 24px;
   margin-bottom: 34px;
-  border-bottom: 1px solid var(--_border);
-  transition: box-shadow .15s ease;
+  display: flex;
+  gap: 20px 36px;
+  flex-wrap: wrap;
 }
-.mhsono-filters.is-stuck { box-shadow: 0 6px 18px rgba(0, 0, 0, .07); }
 
 .mhsono-fgroup {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 6px 2px;
-  position: relative;
+  flex-direction: column;
+  gap: 9px;
 }
-.mhsono-fgroup::-webkit-scrollbar { display: none; }
-.mhsono-fgroup--type { border-bottom: 1px dashed var(--_border); padding-bottom: 10px; margin-bottom: 4px; }
 
 .mhsono-flabel {
-  flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .08em;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--_muted);
-  margin-right: 4px;
-  min-width: 86px;
+}
+
+.mhsono-frow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .mhsono-pill {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  border: 1px solid var(--_border);
+  gap: 8px;
+  border: 1px solid transparent;
   background: #fff;
   color: var(--_head);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: border-color .15s var(--_ease), background .15s var(--_ease), color .15s var(--_ease), transform .15s var(--_ease);
-  position: relative;
-  z-index: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+  transition: border-color .15s var(--_ease), color .15s var(--_ease), box-shadow .15s var(--_ease), transform .15s var(--_ease);
 }
 .mhsono-pill:hover { border-color: var(--_a); }
 .mhsono-pill:active { transform: scale(.96); }
 .mhsono-pill:focus-visible { outline: 2px solid var(--_a); outline-offset: 2px; }
-.mhsono-pill.is-active { background: var(--_black); border-color: var(--_black); color: #fff; }
-.mhsono-pill--sm { font-size: 13px; padding: 6px 13px; }
-.mhsono-pill-count { font-size: 11px; font-weight: 400; opacity: .65; }
-
-/* Gleitender Indicator (nur Typ-Leiste, JS-positioniert) */
-.mhsono-findicator {
-  position: absolute;
-  border-radius: 999px;
-  background: var(--_black);
-  z-index: 0;
-  opacity: 0;
-  transition: left .25s var(--_ease), width .25s var(--_ease), top .25s var(--_ease), height .25s var(--_ease), opacity .15s ease;
-  pointer-events: none;
+.mhsono-pill.is-active {
+  border-color: var(--_a);
+  color: var(--_a-hov);
+  box-shadow: inset 0 0 0 1px var(--_a), 0 1px 2px rgba(0, 0, 0, .06);
 }
-.mhsono-fgroup--type.has-indicator .mhsono-pill.is-active { background: transparent; border-color: transparent; }
 
 .mhsono-dotmini {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, .18);
+  border: 1px solid rgba(0, 0, 0, .15);
   display: inline-block;
   flex: 0 0 auto;
 }
@@ -275,10 +260,8 @@
 @media (max-width: 1024px) {
   .mhsono-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 768px) {
-  .mhsono-flabel { min-width: 0; }
-}
 @media (max-width: 600px) {
+  .mhsono-filters { padding: 16px 16px 18px; gap: 14px; }
   .mhsono-grid { grid-template-columns: 1fr; }
   .mhsono-sec { padding-top: 36px; }
   .mhsono-sec-head h3 { font-size: 21px; }

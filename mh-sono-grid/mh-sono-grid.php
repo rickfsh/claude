@@ -2,12 +2,16 @@
 /**
  * Plugin Name: MH SONO Grid
  * Description: Automatisches, filterbares Modell-Karten-Grid für die MEGA FLEX SONO Produktreihe. Produkte erscheinen automatisch, sobald sie in der SONO-Kategorie liegen; Oberflächen-Varianten werden über das Modell-Attribut zu einer Karte gruppiert. Shortcodes: [mh_sono_grid category="sono"], [mh_sono_count what="models|heights|products"].
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Mega-Holz
  * Requires at least: 6.0
  * Requires PHP: 7.4
  *
  * Changelog:
+ * 1.2.0 — Filter-Redesign "Panel" (von Rick aus 4 Varianten gewählt): hellgraues
+ *         Panel mit Gruppen-Labels (Produkttyp/Höhe/Oberfläche), weiße Chips mit
+ *         Schatten, aktiv = orangener Inset-Ring; Zähler auf den Pills entfernt.
+ *         Sticky-Leiste + gleitender Indicator entfallen (passten zum alten Stil).
  * 1.1.0 — Modell-Fallback aus dem Produkttitel: das letzte komplett GROSS
  *         geschriebene Wort (nur Buchstaben, ≥3 Zeichen, Stoppliste via Filter
  *         mh_sono_model_stopwords) gilt als Modellname — Namenskonvention
@@ -24,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MH_SONO_VERSION', '1.1.0' );
+define( 'MH_SONO_VERSION', '1.2.0' );
 define( 'MH_SONO_FILE', __FILE__ );
 define( 'MH_SONO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'MH_SONO_URL', plugin_dir_url( __FILE__ ) );

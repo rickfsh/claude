@@ -57,6 +57,8 @@ Farbe eine CSS-Regel `.mhsono-finish--<slug>` ergänzen.
 - **Query:** `WP_Query` + `tax_query` auf `product_cat` (inkl. Unterkategorien),
   katalog-versteckte Produkte ausgeschlossen; Shop-Option „ausverkaufte Artikel
   verstecken" wird respektiert, sonst ausgegrauter Punkt + Hinweis.
+- **Filter-Design:** hellgraues Panel mit Gruppen-Labels (Variante „B", von Rick
+  aus 4 Vorschau-Varianten gewählt); aktive Chips mit orangenem Inset-Ring.
 - **Filter:** rein client-seitig (ES5) über `data-*`-Attribute — kein AJAX, dadurch
   WP-Rocket-/Page-Cache-sicher und alle Modelle im Quelltext (SEO). Deep-Links:
   `#sono-h180` (Höhe) und `#sono-typ-einzeltore` (Typ) wählen den Filter vor.

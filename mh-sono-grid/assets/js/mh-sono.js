@@ -1,8 +1,8 @@
 /* ============================================================
-   MH SONO Grid v1.0.0 — Frontend (ES5, kein Framework)
-   Client-seitige Filter (Typ/Höhe/Oberfläche), Oberflächen-
-   Umschalter auf den Karten, Sticky-Filterleiste + Indicator,
-   URL-Hash-Sync für Deep-Links (#sono-h180, #sono-typ-…).
+   MH SONO Grid v1.2.0 — Frontend (ES5, kein Framework)
+   Client-seitige Filter (Typ/Höhe/Oberfläche) im Filter-Panel,
+   Oberflächen-Umschalter auf den Karten, URL-Hash-Sync für
+   Deep-Links (#sono-h180, #sono-typ-…).
    ============================================================ */
 (function () {
   'use strict';
@@ -85,7 +85,6 @@
         else { empty.setAttribute('hidden', 'hidden'); }
       }
       updatePills();
-      moveIndicator(true);
       syncHash();
     }
 
@@ -142,56 +141,6 @@
       } catch (e) { /* rein kosmetisch */ }
     }
 
-    /* ---------- Sticky-Leiste + gleitender Indicator ---------- */
-
-    var filters = root.querySelector('[data-mhsono-filters]');
-    var indicator = null;
-
-    function initSticky() {
-      if (!filters || !('IntersectionObserver' in window)) { return; }
-      var sentinel = document.createElement('div');
-      sentinel.style.cssText = 'height:1px;margin-bottom:-1px;pointer-events:none;';
-      filters.parentNode.insertBefore(sentinel, filters);
-      var obs = new IntersectionObserver(function (entries) {
-        var i;
-        for (i = 0; i < entries.length; i++) {
-          toggleClass(filters, 'is-stuck', !entries[i].isIntersecting);
-        }
-      }, { threshold: 0 });
-      obs.observe(sentinel);
-    }
-
-    function initIndicator() {
-      if (!filters) { return; }
-      var typeGroup = filters.querySelector('.mhsono-fgroup--type');
-      if (!typeGroup) { return; }
-      indicator = document.createElement('div');
-      indicator.className = 'mhsono-findicator';
-      typeGroup.appendChild(indicator);
-      typeGroup.className += ' has-indicator';
-      moveIndicator(false);
-      window.addEventListener('resize', function () { moveIndicator(false); });
-    }
-
-    function moveIndicator(animate) {
-      if (!indicator) { return; }
-      var typeGroup = indicator.parentNode;
-      var active = typeGroup.querySelector('.mhsono-pill.is-active');
-      if (!active) { indicator.style.opacity = '0'; return; }
-      var gRect = typeGroup.getBoundingClientRect();
-      var bRect = active.getBoundingClientRect();
-      if (animate === false) { indicator.style.transition = 'none'; }
-      indicator.style.left = (bRect.left - gRect.left + typeGroup.scrollLeft) + 'px';
-      indicator.style.top = (bRect.top - gRect.top) + 'px';
-      indicator.style.width = bRect.width + 'px';
-      indicator.style.height = bRect.height + 'px';
-      indicator.style.opacity = '1';
-      if (animate === false) {
-        void indicator.offsetHeight;
-        indicator.style.transition = '';
-      }
-    }
-
     /* ---------- Event-Delegation ---------- */
 
     root.addEventListener('click', function (e) {
@@ -239,14 +188,11 @@
 
     /* ---------- Init ---------- */
 
-    initSticky();
-    initIndicator();
     readHash();
     if (state.type || state.height || state.finish) {
       applyFilters();
     } else {
       updatePills();
-      moveIndicator(false);
     }
   }
 

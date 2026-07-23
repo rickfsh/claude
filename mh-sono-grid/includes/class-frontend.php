@@ -163,30 +163,37 @@ final class MH_SONO_Frontend {
 		?>
 	<div class="mhsono-filters" data-mhsono-filters>
 		<?php if ( $has_types ) : ?>
-		<div class="mhsono-fgroup mhsono-fgroup--type" role="tablist" aria-label="Nach Produkttyp filtern" data-mhsono-group="type">
-			<button type="button" class="mhsono-pill is-active" role="tab" aria-selected="true" data-mhsono-filter="type" data-mhsono-value="">Alle</button>
-			<?php foreach ( $f['types'] as $slug => $t ) :
-				$label = '' === $slug ? $this->default_type_label() : $t['label']; ?>
-			<button type="button" class="mhsono-pill" role="tab" aria-selected="false" data-mhsono-filter="type" data-mhsono-value="<?php echo esc_attr( '' === $slug ? '_default' : $slug ); ?>"><?php echo esc_html( $label ); ?><span class="mhsono-pill-count"><?php echo (int) $t['count']; ?></span></button>
-			<?php endforeach; ?>
+		<div class="mhsono-fgroup" data-mhsono-group="type">
+			<span class="mhsono-flabel">Produkttyp</span>
+			<div class="mhsono-frow" role="tablist" aria-label="Nach Produkttyp filtern">
+				<button type="button" class="mhsono-pill is-active" role="tab" aria-selected="true" data-mhsono-filter="type" data-mhsono-value="">Alle</button>
+				<?php foreach ( $f['types'] as $slug => $t ) :
+					$label = '' === $slug ? $this->default_type_label() : $t['label']; ?>
+				<button type="button" class="mhsono-pill" role="tab" aria-selected="false" data-mhsono-filter="type" data-mhsono-value="<?php echo esc_attr( '' === $slug ? '_default' : $slug ); ?>"><?php echo esc_html( $label ); ?></button>
+				<?php endforeach; ?>
+			</div>
 		</div>
 		<?php endif; ?>
 		<?php if ( $has_heights ) : ?>
-		<div class="mhsono-fgroup" role="group" aria-label="Nach H&ouml;he filtern" data-mhsono-group="height">
+		<div class="mhsono-fgroup" data-mhsono-group="height">
 			<span class="mhsono-flabel">H&ouml;he</span>
-			<button type="button" class="mhsono-pill mhsono-pill--sm is-active" data-mhsono-filter="height" data-mhsono-value="" aria-pressed="true">Alle</button>
-			<?php foreach ( $f['heights'] as $h => $hd ) : ?>
-			<button type="button" class="mhsono-pill mhsono-pill--sm" data-mhsono-filter="height" data-mhsono-value="<?php echo esc_attr( $h ); ?>" aria-pressed="false"><?php echo esc_html( $hd['label'] ); ?><span class="mhsono-pill-count"><?php echo (int) $hd['count']; ?></span></button>
-			<?php endforeach; ?>
+			<div class="mhsono-frow" role="group" aria-label="Nach H&ouml;he filtern">
+				<button type="button" class="mhsono-pill is-active" data-mhsono-filter="height" data-mhsono-value="" aria-pressed="true">Alle</button>
+				<?php foreach ( $f['heights'] as $h => $hd ) : ?>
+				<button type="button" class="mhsono-pill" data-mhsono-filter="height" data-mhsono-value="<?php echo esc_attr( $h ); ?>" aria-pressed="false"><?php echo esc_html( $hd['label'] ); ?></button>
+				<?php endforeach; ?>
+			</div>
 		</div>
 		<?php endif; ?>
 		<?php if ( $has_finishes ) : ?>
-		<div class="mhsono-fgroup" role="group" aria-label="Nach Oberfl&auml;che filtern" data-mhsono-group="finish">
+		<div class="mhsono-fgroup" data-mhsono-group="finish">
 			<span class="mhsono-flabel">Oberfl&auml;che</span>
-			<button type="button" class="mhsono-pill mhsono-pill--sm is-active" data-mhsono-filter="finish" data-mhsono-value="" aria-pressed="true">Alle</button>
-			<?php foreach ( $f['finishes'] as $slug => $fd ) : ?>
-			<button type="button" class="mhsono-pill mhsono-pill--sm" data-mhsono-filter="finish" data-mhsono-value="<?php echo esc_attr( $slug ); ?>" aria-pressed="false"><i class="mhsono-dotmini mhsono-finish--<?php echo esc_attr( $slug ); ?>"></i><?php echo esc_html( $fd['label'] ); ?></button>
-			<?php endforeach; ?>
+			<div class="mhsono-frow" role="group" aria-label="Nach Oberfl&auml;che filtern">
+				<button type="button" class="mhsono-pill is-active" data-mhsono-filter="finish" data-mhsono-value="" aria-pressed="true">Alle</button>
+				<?php foreach ( $f['finishes'] as $slug => $fd ) : ?>
+				<button type="button" class="mhsono-pill" data-mhsono-filter="finish" data-mhsono-value="<?php echo esc_attr( $slug ); ?>" aria-pressed="false"><i class="mhsono-dotmini mhsono-finish--<?php echo esc_attr( $slug ); ?>"></i><?php echo esc_html( $fd['label'] ); ?></button>
+				<?php endforeach; ?>
+			</div>
 		</div>
 		<?php endif; ?>
 	</div>
